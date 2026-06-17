@@ -24,29 +24,29 @@ export function Trust() {
   }
 
   return (
-    <section className="py-10 md:py-12 lg:py-14" style={{ background: '#FDFAF5' }}>
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section className="py-7 md:py-10 lg:py-12" style={{ background: '#FDFAF5' }}>
+      <div className="mx-auto max-w-7xl px-5 md:px-12">
         {/* Header */}
-        <div className="mb-12 text-center">
+        <div className="mb-8 md:mb-10 text-center">
           <p className="font-playfair text-sm italic tracking-widest" style={{ color: '#B07848' }}>
             Project Documents
           </p>
           <h2 className="text-section-title mt-3 font-playfair font-bold" style={{ color: '#0D1F2D' }}>
             Project Documents & Transparency
           </h2>
-          <p className="mt-4 mx-auto max-w-xl text-sm leading-relaxed" style={{ color: '#4A5568' }}>
+          <p className="mt-3 md:mt-4 mx-auto max-w-xl text-sm leading-relaxed" style={{ color: '#4A5568' }}>
             We believe in complete transparency. All project documents are available on request.
           </p>
         </div>
 
         {/* Document buttons */}
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4">
           {DOCUMENTS.map(doc => (
             <button
               key={doc.id}
               id={`trust-doc-${doc.id}`}
               onClick={() => handleDocClick(doc.label)}
-              className="flex items-center gap-3 rounded-xl border px-6 py-4 text-sm font-semibold transition-all hover:shadow-md hover:scale-[1.02]"
+              className="flex items-center gap-2.5 md:gap-3 rounded-lg md:rounded-xl border px-4 md:px-6 py-3 md:py-4 text-sm font-semibold transition-all hover:shadow-md hover:scale-[1.02]"
               style={{ background: '#fff', borderColor: '#E2D9CC', color: '#0D1F2D' }}
             >
               <FileText className="h-4 w-4" style={{ color: '#B07848' }} />

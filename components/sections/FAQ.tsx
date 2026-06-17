@@ -12,18 +12,18 @@ export function FAQ() {
   }
 
   return (
-    <section id="faq" className="py-10 md:py-12 lg:py-14" style={{ background: '#F5F0E8' }}>
-      <div className="mx-auto max-w-3xl px-6 md:px-12">
+    <section id="faq" className="py-7 md:py-10 lg:py-12" style={{ background: '#F5F0E8' }}>
+      <div className="mx-auto max-w-3xl px-5 md:px-12">
 
         {/* Header */}
-        <div className="mb-14 text-center">
+        <div className="mb-8 md:mb-10 text-center">
           <p className="font-cinzel text-[0.65rem] tracking-[0.4em] uppercase mb-3" style={{ color: '#B07848' }}>
             Got Questions?
           </p>
           <h2 className="font-cinzel text-2xl md:text-3xl font-bold tracking-[0.06em]" style={{ color: '#0D1F2D' }}>
             Frequently Asked Questions
           </h2>
-          <div className="flex items-center justify-center gap-4 mt-5">
+          <div className="flex items-center justify-center gap-4 mt-4 md:mt-5">
             <div className="h-px w-16" style={{ background: 'linear-gradient(to right, transparent, #B07848aa)' }} />
             <svg width="8" height="8" viewBox="0 0 8 8">
               <rect x="4" y="0" width="5.6" height="5.6" transform="rotate(45 4 0)" fill="#B07848" opacity="0.7" />
@@ -42,7 +42,7 @@ export function FAQ() {
                   id={`faq-item-${i}`}
                   onClick={() => toggle(i)}
                   aria-expanded={isOpen}
-                  className="group flex w-full items-start gap-5 py-6 text-left cursor-pointer outline-none"
+                  className="group flex w-full items-start gap-4 md:gap-5 py-4.5 md:py-6 text-left cursor-pointer outline-none"
                   whileHover={{ x: 2 }}
                   transition={{ duration: 0.15 }}
                 >
@@ -93,7 +93,7 @@ export function FAQ() {
                       transition={{ duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
                       style={{ overflow: 'hidden' }}
                     >
-                      <div className="flex gap-5 pb-7">
+                      <div className="flex gap-4 md:gap-5 pb-5 md:pb-7">
                         {/* Left accent bar */}
                         <div className="w-6 shrink-0 flex justify-end">
                           <motion.div
@@ -106,7 +106,7 @@ export function FAQ() {
                           />
                         </div>
                         <p
-                          className="flex-1 font-outfit text-sm leading-[1.85] pr-8"
+                          className="flex-1 font-outfit text-sm leading-[1.7] md:leading-[1.85] pr-2 md:pr-8"
                           style={{ color: '#5A6478' }}
                         >
                           {faq.answer}
@@ -121,7 +121,7 @@ export function FAQ() {
         </div>
 
         {/* Footer CTA */}
-        <div className="mt-14 text-center">
+        <div className="mt-8 md:mt-12 text-center">
           <p className="font-outfit text-sm text-[#6B7280] mb-4">
             Still have questions? Our team is ready to help.
           </p>

@@ -42,10 +42,10 @@ function PlotCard({ collection, index, onBrochureClick }: { collection: PlotColl
         </div>
       )}
 
-      <div className="flex flex-col flex-1 p-7">
+      <div className="flex flex-col flex-1 p-5 md:p-7">
         {/* Eyebrow */}
         <p
-          className="font-cinzel text-[0.58rem] tracking-[0.35em] uppercase font-semibold mb-3"
+          className="font-cinzel text-[0.58rem] tracking-[0.28em] md:tracking-[0.35em] uppercase font-semibold mb-2.5 md:mb-3"
           style={{ color: isFeatured ? '#D4A46A' : '#B07848' }}
         >
           {collection.subtitle}
@@ -53,7 +53,7 @@ function PlotCard({ collection, index, onBrochureClick }: { collection: PlotColl
 
         {/* Title */}
         <h3
-          className="font-cinzel text-lg font-bold tracking-wide leading-snug mb-5"
+          className="font-cinzel text-base md:text-lg font-bold tracking-wide leading-snug mb-4 md:mb-5"
           style={{ color: isFeatured ? '#FDFAF5' : '#0D1F2D' }}
         >
           {collection.name}
@@ -61,7 +61,7 @@ function PlotCard({ collection, index, onBrochureClick }: { collection: PlotColl
 
         {/* Size display */}
         <div
-          className="mb-5 px-4 py-3"
+          className="mb-4 md:mb-5 px-4 py-3"
           style={{
             background: isFeatured ? 'rgba(212,164,106,0.08)' : '#F0EBE1',
             borderLeft: `2px solid ${isFeatured ? '#D4A46A' : '#B07848'}`,
@@ -83,7 +83,7 @@ function PlotCard({ collection, index, onBrochureClick }: { collection: PlotColl
 
         {/* Description */}
         <p
-          className="text-sm leading-[1.8] flex-1"
+          className="text-sm leading-[1.65] md:leading-[1.8] flex-1"
           style={{ color: isFeatured ? 'rgba(253,250,245,0.65)' : '#5A6478' }}
         >
           {collection.description}
@@ -110,7 +110,7 @@ function PlotCard({ collection, index, onBrochureClick }: { collection: PlotColl
         <button
           id={`plots-register-${collection.id}`}
           onClick={onBrochureClick}
-          className="mt-6 w-full py-3.5 font-cinzel text-[0.65rem] tracking-[0.2em] uppercase font-bold transition-all duration-200 hover:brightness-105"
+          className="mt-5 md:mt-6 w-full py-3 md:py-3.5 font-cinzel text-[0.65rem] tracking-[0.2em] uppercase font-bold transition-all duration-200 hover:brightness-105"
           style={
             isFeatured
               ? { background: '#B07848', color: '#FDFAF5' }
@@ -126,11 +126,11 @@ function PlotCard({ collection, index, onBrochureClick }: { collection: PlotColl
 
 export function Plots({ onBrochureClick }: Props) {
   return (
-    <section id="plots" className="py-10 md:py-12 lg:py-14" style={{ background: '#FDFAF5' }}>
-      <div className="mx-auto max-w-6xl px-6 md:px-12">
+    <section id="plots" className="py-7 md:py-10 lg:py-12" style={{ background: '#FDFAF5' }}>
+      <div className="mx-auto max-w-6xl px-5 md:px-12">
 
         {/* Header */}
-        <div className="mb-10 text-center">
+        <div className="mb-7 md:mb-9 text-center">
           <p className="font-cinzel text-[0.62rem] tracking-[0.4em] uppercase mb-3" style={{ color: '#B07848' }}>
             Plot Collections
           </p>
@@ -144,7 +144,7 @@ export function Plots({ onBrochureClick }: Props) {
             </svg>
             <div className="h-px w-12" style={{ background: 'linear-gradient(to left, transparent, #B07848aa)' }} />
           </div>
-          <p className="mt-4 mx-auto max-w-lg text-sm leading-relaxed" style={{ color: '#6B7280' }}>
+          <p className="mt-3 md:mt-4 mx-auto max-w-lg text-sm leading-relaxed" style={{ color: '#6B7280' }}>
             Three curated collections, each designed to match a distinct vision of coastal living.
           </p>
         </div>

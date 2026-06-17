@@ -15,9 +15,9 @@ const REASONS = [
 
 export function WhyKundapura() {
   return (
-    <section className="py-10 md:py-12 lg:py-14" style={{ background: '#FDFAF5' }}>
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
-        <div className="grid gap-12 md:grid-cols-2 md:items-center">
+    <section className="py-7 md:py-10 lg:py-12" style={{ background: '#FDFAF5' }}>
+      <div className="mx-auto max-w-7xl px-5 md:px-12">
+        <div className="grid gap-7 md:gap-10 md:grid-cols-2 md:items-center">
           {/* Left: heading */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -31,12 +31,12 @@ export function WhyKundapura() {
             <h2 className="text-section-title mt-3 font-playfair font-bold" style={{ color: '#0D1F2D' }}>
               Why Kundapura?
             </h2>
-            <p className="mt-6 leading-relaxed" style={{ color: '#4A5568' }}>
+            <p className="mt-4 md:mt-6 leading-relaxed" style={{ color: '#4A5568' }}>
               Kundapura is emerging as a strong coastal investment destination because of its beaches, backwaters, NH66 connectivity, railway access, tourism potential and rising demand for second homes and retirement homes.
             </p>
 
             {/* Decorative line */}
-            <div className="mt-8 flex items-center gap-4">
+            <div className="mt-5 md:mt-8 flex items-center gap-3 md:gap-4">
               <div className="h-px flex-1" style={{ background: '#E2D9CC' }} />
               <span className="font-mono text-xs uppercase tracking-widest" style={{ color: '#B07848' }}>
                 Kundapura, Karnataka
@@ -51,10 +51,10 @@ export function WhyKundapura() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="space-y-4"
+            className="space-y-3 md:space-y-4"
           >
             {REASONS.map((reason, i) => (
-              <li key={i} className="flex items-start gap-4">
+              <li key={i} className="flex items-start gap-3 md:gap-4">
                 <div
                   className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
                   style={{ background: 'rgba(176,120,72,0.15)' }}

@@ -27,10 +27,10 @@ const DIFFS = [
 
 export function Differentiators() {
   return (
-    <section className="py-10 md:py-12 lg:py-14" style={{ background: '#F5F0E8' }}>
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section className="py-7 md:py-10 lg:py-12" style={{ background: '#F5F0E8' }}>
+      <div className="mx-auto max-w-7xl px-5 md:px-12">
         {/* Header */}
-        <div className="mb-14 max-w-2xl">
+        <div className="mb-8 md:mb-10 max-w-2xl">
           <p className="font-playfair text-sm italic tracking-widest" style={{ color: '#B07848' }}>
             What Sets Us Apart
           </p>
@@ -39,7 +39,7 @@ export function Differentiators() {
           </h2>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-4 md:gap-6 sm:grid-cols-2">
           {DIFFS.map((d, i) => (
             <motion.div
               key={d.num}
@@ -47,19 +47,19 @@ export function Differentiators() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: i * 0.1 }}
-              className="rounded-2xl p-8"
+              className="rounded-xl md:rounded-2xl p-5 md:p-8"
               style={{
                 background: '#FDFAF5',
                 borderTop: '3px solid #B07848',
               }}
             >
               <p
-                className="font-mono text-5xl font-semibold"
+                className="font-mono text-4xl md:text-5xl font-semibold"
                 style={{ color: 'rgba(176,120,72,0.2)', lineHeight: 1 }}
               >
                 {d.num}
               </p>
-              <h3 className="mt-4 text-lg font-bold" style={{ color: '#0D1F2D' }}>
+              <h3 className="mt-3 md:mt-4 text-base md:text-lg font-bold" style={{ color: '#0D1F2D' }}>
                 {d.title}
               </h3>
               <p className="mt-3 text-sm leading-relaxed" style={{ color: '#4A5568' }}>

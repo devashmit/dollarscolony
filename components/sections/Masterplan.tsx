@@ -1,19 +1,12 @@
 'use client'
 
-import Image from 'next/image'
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
 import { Download } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { PlotExplorer } from './PlotExplorer'
 
-interface Props {
-  onBrochureClick?: () => void
-}
-
-export function Masterplan({ onBrochureClick }: Props) {
+export function Masterplan() {
   return (
-    <section id="masterplan" className="pt-4 pb-10 md:pb-12 lg:pb-14 relative overflow-hidden" style={{ background: '#0D1F2D' }}>
+    <section id="masterplan" className="pt-3 pb-7 md:pb-10 lg:pb-12 relative overflow-hidden" style={{ background: '#0D1F2D' }}>
       {/* Premium Golden Leaf Embroidery Watermark */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-between overflow-hidden opacity-[0.03] mix-blend-plus-lighter text-[#D4A46A] z-0">
         <div className="relative -translate-x-1/3 -translate-y-1/4 rotate-45 transform">
@@ -31,48 +24,19 @@ export function Masterplan({ onBrochureClick }: Props) {
            </svg>
         </div>
       </div>
-      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
+      <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-12">
         {/* Header */}
-        <div className="mb-12 text-center">
+        <div className="mb-7 md:mb-9 text-center">
           <p className="font-playfair text-sm italic tracking-widest" style={{ color: '#B07848' }}>
             Site Layout
           </p>
           <h2 className="text-section-title mt-3 font-playfair font-bold text-white">
             Master Plan
           </h2>
-          <p className="mt-4 text-sm" style={{ color: '#8A9BB0' }}>
-            Click the plan to zoom in and explore the full site layout.
-          </p>
         </div>
 
-        {/* Master plan image with zoom */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="relative mx-auto max-w-3xl overflow-hidden rounded-2xl cursor-zoom-in"
-          style={{
-            border: '1px solid rgba(255,255,255,0.1)',
-          }}
-        >
-          <Zoom zoomMargin={24}>
-            <Image
-              src="/masterplan.jpg"
-              alt="Dollars Colony master plan site layout plan for villa plots in Kundapura"
-              width={900}
-              height={600}
-              className="w-full h-auto block lens-focus"
-              sizes="(max-width: 768px) 100vw, 900px"
-            />
-          </Zoom>
-          <p className="absolute bottom-3 right-3 rounded-lg px-3 py-1.5 text-xs font-semibold" style={{ background: 'rgba(13,31,45,0.85)', color: '#D4A46A' }}>
-            Click to zoom
-          </p>
-        </motion.div>
-
         {/* Download CTA */}
-        <div className="mt-8 flex justify-center">
+        <div className="flex justify-center">
           <a
             id="masterplan-download-btn"
             href="/documents/masterplan.pdf"
@@ -91,10 +55,10 @@ export function Masterplan({ onBrochureClick }: Props) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-14 border-t pt-10"
+          className="mt-9 md:mt-12 border-t pt-7 md:pt-9"
           style={{ borderColor: 'rgba(255,255,255,0.08)' }}
         >
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 md:mb-8">
             <p className="font-cinzel text-[0.62rem] tracking-[0.4em] uppercase mb-2" style={{ color: '#D4A46A' }}>
               Site Layout
             </p>
@@ -120,13 +84,13 @@ export function Masterplan({ onBrochureClick }: Props) {
 
             return (
               <>
-                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 px-6 md:px-0 md:grid md:grid-cols-5 md:gap-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 md:gap-6 pb-5 md:pb-6 px-1 md:px-0 md:grid md:grid-cols-5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   {blocks.map((item) => {
                     const grade = GRADES[item.type] ?? GRADES['Lifestyle']
                     return (
                       <div
                         key={item.block}
-                        className="flex-shrink-0 w-[75%] sm:w-[45%] md:w-auto snap-center flex flex-col items-start p-6 rounded-2xl border border-white/10 transition-all hover:border-white/20 hover:bg-white/5 relative overflow-hidden group"
+                        className="flex-shrink-0 w-[78%] sm:w-[45%] md:w-auto snap-center flex flex-col items-start p-4 md:p-6 rounded-xl md:rounded-2xl border border-white/10 transition-all hover:border-white/20 hover:bg-white/5 relative overflow-hidden group"
                         style={{ background: '#08141F' }}
                       >
                         {/* Subtle top border glow */}
@@ -136,7 +100,7 @@ export function Masterplan({ onBrochureClick }: Props) {
                         />
 
                         {/* Card Header */}
-                        <div className="flex items-center gap-3 mb-8 w-full justify-between">
+                        <div className="flex items-center gap-3 mb-5 md:mb-8 w-full justify-between">
                           <div className="flex items-center gap-2">
                             <div
                               className="w-2 h-2 rounded-full"
@@ -152,7 +116,7 @@ export function Masterplan({ onBrochureClick }: Props) {
                         </div>
 
                         {/* Details */}
-                        <div className="w-full space-y-5">
+                        <div className="w-full space-y-4 md:space-y-5">
                           <div>
                             <p className="font-outfit text-[10px] uppercase tracking-widest text-[#8A9BB0] mb-1">
                               Sq.Ft Range
@@ -176,7 +140,7 @@ export function Masterplan({ onBrochureClick }: Props) {
                 </div>
 
                 {/* Legend */}
-                <div className="mt-8 flex flex-wrap justify-center gap-6 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="mt-6 md:mt-8 flex flex-wrap justify-center gap-4 md:gap-6 pt-5 md:pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   {[
                     { label: 'Lifestyle Plots',           color: '#A1B88B' },
                     { label: 'Premium Plots',             color: '#C29C76' },

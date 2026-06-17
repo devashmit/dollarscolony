@@ -12,8 +12,8 @@ interface Props {
 }
 
 export function Contact({ onBrochureClick }: Props) {
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '916361512031'
-  const phoneNumber    = process.env.NEXT_PUBLIC_PHONE_NUMBER    ?? '+916361512031'
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '19035624148'
+  const phoneNumber    = process.env.NEXT_PUBLIC_PHONE_NUMBER    ?? '9035624148'
   const waHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi, I'm interested in Dollars Colony")}`
 
   const [form, setForm] = useState({ name: '', phone: '', city: '', interestedIn: '' })
@@ -62,7 +62,7 @@ export function Contact({ onBrochureClick }: Props) {
   }
 
   return (
-    <section id="contact" className="pt-4 pb-10 md:pb-12 lg:pb-14 relative overflow-hidden" style={{ background: '#0D1F2D' }}>
+    <section id="contact" className="pt-3 pb-7 md:pb-10 lg:pb-12 relative overflow-hidden" style={{ background: '#0D1F2D' }}>
       {/* Premium Golden Leaf Embroidery Watermark */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-between overflow-hidden opacity-[0.03] mix-blend-plus-lighter text-[#D4A46A] z-0">
         <div className="relative -translate-x-1/3 -translate-y-1/4 rotate-45 transform">
@@ -80,8 +80,8 @@ export function Contact({ onBrochureClick }: Props) {
            </svg>
         </div>
       </div>
-      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
-        <div className="grid gap-12 md:grid-cols-2 md:items-start">
+      <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-12">
+        <div className="grid gap-7 md:gap-10 md:grid-cols-2 md:items-start">
 
           {/* Left: copy */}
           <motion.div
@@ -96,18 +96,18 @@ export function Contact({ onBrochureClick }: Props) {
             <h2 className="text-section-title mt-3 font-playfair font-bold text-white">
               Schedule a Site Visit
             </h2>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed" style={{ color: '#8A9BB0' }}>
+            <p className="mt-4 md:mt-5 max-w-sm text-sm leading-relaxed" style={{ color: '#8A9BB0' }}>
               Our team is happy to walk you through the project, answer questions, and arrange a site
               visit at your convenience.
             </p>
 
             {/* Contact action buttons */}
-            <div className="mt-10 flex flex-col gap-3">
+            <div className="mt-6 md:mt-8 flex flex-col gap-2.5 md:gap-3">
               <a
                 id="contact-call-btn"
                 href={`tel:${phoneNumber}`}
                 onClick={() => analytics.callClick('contact-section')}
-                className="flex items-center gap-3 rounded-xl px-5 py-4 text-sm font-semibold text-white transition-all hover:opacity-90"
+                className="flex items-center gap-3 rounded-lg md:rounded-xl px-4 md:px-5 py-3.5 md:py-4 text-sm font-semibold text-white transition-all hover:opacity-90"
                 style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)' }}
               >
                 <Phone className="h-5 w-5" style={{ color: '#B07848' }} />
@@ -119,7 +119,7 @@ export function Contact({ onBrochureClick }: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => analytics.whatsappClick('contact-section')}
-                className="flex items-center gap-3 rounded-xl px-5 py-4 text-sm font-semibold text-white transition-all hover:opacity-90"
+                className="flex items-center gap-3 rounded-lg md:rounded-xl px-4 md:px-5 py-3.5 md:py-4 text-sm font-semibold text-white transition-all hover:opacity-90"
                 style={{ background: '#25D366' }}
               >
                 <MessageCircle className="h-5 w-5" />
@@ -128,7 +128,7 @@ export function Contact({ onBrochureClick }: Props) {
               <button
                 id="contact-brochure-btn"
                 onClick={onBrochureClick}
-                className="flex items-center gap-3 rounded-xl px-5 py-4 text-sm font-semibold text-white transition-all hover:opacity-90"
+                className="flex items-center gap-3 rounded-lg md:rounded-xl px-4 md:px-5 py-3.5 md:py-4 text-sm font-semibold text-white transition-all hover:opacity-90"
                 style={{ background: '#B07848' }}
               >
                 <Download className="h-5 w-5" />
@@ -137,12 +137,11 @@ export function Contact({ onBrochureClick }: Props) {
             </div>
             
             {/* Direct Contact Info */}
-            <div className="mt-10 flex flex-col gap-3 font-outfit text-sm text-white/70">
-              <p><strong className="text-white">Call/WhatsApp:</strong> +91 63615 12031, +91 97397 75328</p>
+            <div className="mt-6 md:mt-8 flex flex-col gap-2.5 md:gap-3 font-outfit text-sm text-white/70">
+              <p><strong className="text-white">Call/WhatsApp:</strong> 903-562-4148</p>
               <p>
                 <strong className="text-white">Email:</strong>{' '}
-                <a href="mailto:sales@dollarscolony.in" className="hover:text-white transition-colors">sales@dollarscolony.in</a>,{' '}
-                <a href="mailto:shettysrikrishna@gmail.com" className="hover:text-white transition-colors">shettysrikrishna@gmail.com</a>
+                <a href="mailto:sales@dollarscolony.in" className="hover:text-white transition-colors">sales@dollarscolony.in</a>
               </p>
             </div>
           </motion.div>
@@ -153,7 +152,7 @@ export function Contact({ onBrochureClick }: Props) {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.12 }}
-            className="rounded-2xl p-8 relative overflow-hidden group"
+            className="rounded-xl md:rounded-2xl p-5 md:p-8 relative overflow-hidden group"
             style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}
           >
 
@@ -173,7 +172,7 @@ export function Contact({ onBrochureClick }: Props) {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+              <form onSubmit={handleSubmit} className="space-y-3.5 md:space-y-4" noValidate>
                 {selectedPlot && (
                   <div className="flex items-center justify-between rounded-xl px-4 py-3 text-sm border border-[#D4A46A]/35" style={{ background: 'rgba(212, 164, 106, 0.08)', color: '#D4A46A' }}>
                     <span className="font-outfit font-medium">Selected Plot: <span className="font-mono font-bold text-white text-base">{selectedPlot}</span></span>
@@ -195,7 +194,7 @@ export function Contact({ onBrochureClick }: Props) {
                     value={form.name}
                     onChange={handleChange}
                     placeholder="Your full name"
-                    className="w-full rounded-xl border px-4 py-3.5 text-sm outline-none transition-all"
+                    className="w-full rounded-lg md:rounded-xl border px-4 py-3 md:py-3.5 text-sm outline-none transition-all"
                     style={{ background: 'rgba(255,255,255,0.07)', borderColor: 'rgba(255,255,255,0.12)', color: '#fff' }}
                   />
                 </div>
@@ -215,7 +214,7 @@ export function Contact({ onBrochureClick }: Props) {
                     placeholder="10-digit mobile number"
                     pattern="[6-9][0-9]{9}"
                     maxLength={10}
-                    className="w-full rounded-xl border px-4 py-3.5 text-sm outline-none transition-all"
+                    className="w-full rounded-lg md:rounded-xl border px-4 py-3 md:py-3.5 text-sm outline-none transition-all"
                     style={{ background: 'rgba(255,255,255,0.07)', borderColor: 'rgba(255,255,255,0.12)', color: '#fff' }}
                   />
                 </div>
@@ -233,7 +232,7 @@ export function Contact({ onBrochureClick }: Props) {
                     value={form.city}
                     onChange={handleChange}
                     placeholder="Your city"
-                    className="w-full rounded-xl border px-4 py-3.5 text-sm outline-none transition-all"
+                    className="w-full rounded-lg md:rounded-xl border px-4 py-3 md:py-3.5 text-sm outline-none transition-all"
                     style={{ background: 'rgba(255,255,255,0.07)', borderColor: 'rgba(255,255,255,0.12)', color: '#fff' }}
                   />
                 </div>
@@ -249,7 +248,7 @@ export function Contact({ onBrochureClick }: Props) {
                     required
                     value={form.interestedIn}
                     onChange={handleChange}
-                    className="w-full rounded-xl border px-4 py-3.5 text-sm outline-none transition-all"
+                    className="w-full rounded-lg md:rounded-xl border px-4 py-3 md:py-3.5 text-sm outline-none transition-all"
                     style={{ background: '#1A3348', borderColor: 'rgba(255,255,255,0.12)', color: form.interestedIn ? '#fff' : '#8A9BB0' }}
                   >
                     <option value="" disabled>Select a collection or interest</option>
@@ -270,7 +269,7 @@ export function Contact({ onBrochureClick }: Props) {
                   id="contact-submit-btn"
                   type="submit"
                   disabled={loading}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl py-4 text-sm font-bold text-white transition-all hover:opacity-90 disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg md:rounded-xl py-3.5 md:py-4 text-sm font-bold text-white transition-all hover:opacity-90 disabled:opacity-60"
                   style={{ background: '#B07848' }}
                 >
                   {loading && <Loader2 className="h-4 w-4 animate-spin" />}

@@ -18,7 +18,7 @@ interface Props {
 }
 
 export function Hero({ onBrochureClick }: Props) {
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '916361512031'
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '19035624148'
   const waHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi, I'm interested in Dollars Colony")}`
 
   return (
@@ -70,7 +70,7 @@ export function Hero({ onBrochureClick }: Props) {
         initial={{ opacity: 0, y: -25 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5 }}
-        className="absolute top-24 right-6 md:top-28 md:right-12 z-20 w-[104px] h-[135px] flex flex-col items-center justify-center p-3 select-none"
+        className="absolute top-24 right-12 z-20 hidden w-[104px] h-[135px] flex-col items-center justify-center p-3 select-none md:flex"
       >
         {/* Shield Background SVG */}
         <div className="absolute inset-0 z-0">
@@ -82,7 +82,7 @@ export function Hero({ onBrochureClick }: Props) {
         {/* Shield Content */}
         <div className="relative z-10 flex flex-col items-center justify-center text-center mt-[-8px]">
           {/* Detailed 5-Point Crown */}
-          <svg className="text-[#D4A46A] w-10 h-8 mb-1.5" viewBox="0 0 100 80" fill="currentColor">
+          <svg className="text-[#D4A46A] w-8 h-6 md:w-10 md:h-8 mb-1 md:mb-1.5" viewBox="0 0 100 80" fill="currentColor">
             {/* Base lines */}
             <rect x="20" y="58" width="60" height="3.5" rx="1" />
             <rect x="23" y="65" width="54" height="2.5" rx="1" />
@@ -95,14 +95,14 @@ export function Hero({ onBrochureClick }: Props) {
             <circle cx="64" cy="26" r="2.8" />
             <circle cx="78" cy="36" r="2.2" />
           </svg>
-          <span className="font-cinzel text-[0.62rem] text-[#D4A46A] tracking-[0.22em] uppercase font-bold text-center leading-relaxed block mt-1">
+          <span className="font-cinzel text-[0.5rem] md:text-[0.62rem] text-[#D4A46A] tracking-[0.18em] md:tracking-[0.22em] uppercase font-bold text-center leading-relaxed block mt-1">
             Pre<br />Launch<br />Offer
           </span>
         </div>
       </motion.div>
 
       {/* Main Content Container (Centered Symmetrical Layout) */}
-      <div className="relative z-10 w-full max-w-4xl mx-auto px-6 pt-24 md:pt-28 pb-6 md:pb-8 flex-1 flex flex-col justify-center items-center text-center">
+      <div className="relative z-10 w-full max-w-4xl mx-auto px-5 pt-20 md:pt-24 pb-4 md:pb-6 flex-1 flex flex-col justify-center items-center text-center">
         
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -111,12 +111,12 @@ export function Hero({ onBrochureClick }: Props) {
           className="flex flex-col items-center"
         >
           {/* Logo - Sri Brahmari Developers (transparent PNG + styled text) */}
-          <div className="mb-4 select-none flex flex-col items-center">
+          <div className="mb-3 select-none flex flex-col items-center">
             {/* Lotus image only — crop to just the flower part */}
             <div
               style={{
-                width: 100,
-                height: 75,
+                width: 84,
+                height: 62,
                 overflow: 'hidden',
                 filter: 'drop-shadow(0 4px 18px rgba(212,164,106,0.55)) brightness(1.15) saturate(1.2)',
               }}
@@ -124,7 +124,7 @@ export function Hero({ onBrochureClick }: Props) {
               <Image
                 src="/sri-brahmari-logo-transparent.png"
                 alt="Sri Brahmari Developers Logo"
-                width={100}
+                width={84}
                 height={150}
                 className="object-cover object-top block"
                 style={{ objectPosition: 'top center', height: '100%' }}
@@ -132,7 +132,7 @@ export function Hero({ onBrochureClick }: Props) {
             </div>
             {/* Brand name rendered in gold Cinzel for clarity on dark background */}
             <p
-              className="font-cinzel text-xs md:text-sm font-bold tracking-[0.22em] mt-1 uppercase"
+              className="font-cinzel text-[0.68rem] md:text-sm font-bold tracking-[0.22em] mt-1 uppercase"
               style={{ color: '#F0C97A', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}
             >
               Sri Brahmari
@@ -147,14 +147,14 @@ export function Hero({ onBrochureClick }: Props) {
 
           {/* Symmetrical Elegant Classic Title */}
           <h1
-            className="font-cinzel text-4xl md:text-6xl lg:text-7xl font-bold tracking-[0.1em] drop-shadow-md leading-[1.15]"
+            className="font-cinzel text-[2.35rem] md:text-6xl lg:text-7xl font-bold tracking-[0.08em] md:tracking-[0.1em] drop-shadow-md leading-[1.12]"
             style={{ color: '#FDFAF5' }}
           >
             DOLLARS<br />COLONY
           </h1>
 
           {/* Symmetrical divider with gold diamond accent */}
-          <div className="flex items-center justify-center gap-4 my-4 md:my-6 w-full max-w-sm">
+          <div className="flex items-center justify-center gap-4 my-3 md:my-5 w-full max-w-sm">
             <div className="h-[1.5px] flex-1" style={{ background: 'linear-gradient(to right, transparent, #D4A46A)', filter: 'drop-shadow(0 0 3px rgba(212,164,106,0.8))' }} />
             <svg width="8" height="8" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="5" y="0" width="7" height="7" transform="rotate(45 5 0)" fill="#D4A46A" />
@@ -162,24 +162,20 @@ export function Hero({ onBrochureClick }: Props) {
             <div className="h-[1.5px] flex-1" style={{ background: 'linear-gradient(to left, transparent, #D4A46A)', filter: 'drop-shadow(0 0 3px rgba(212,164,106,0.8))' }} />
           </div>
 
-          {/* Subtitle in Gold Serif */}
-          <h2 
-            className="font-cinzel text-lg md:text-2xl lg:text-3xl tracking-[0.2em] font-bold mb-6 md:mb-8 uppercase" 
-            style={{ 
-              color: '#F0C97A',
-              textShadow: '0 2px 8px rgba(0,0,0,0.8), 0 0 20px rgba(212,164,106,0.4)',
-            }}
+          <div
+            className="mb-3 inline-flex items-center rounded-full border border-[#D4A46A] px-3.5 py-1.5 text-[0.55rem] font-bold uppercase tracking-[0.18em] text-[#F0C97A] shadow-lg backdrop-blur-md md:hidden"
+            style={{ background: 'rgba(9,43,28,0.85)', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}
           >
-            @ VIAAN ENCLAVE
-          </h2>
+            Pre Launch Offer
+          </div>
 
           {/* Elegant Pill Badge in Forest Green with Gold Border */}
           <div
-            className="inline-flex items-center rounded-full border border-[#D4A46A] px-6 py-2.5 md:px-8 md:py-3 shadow-2xl mb-5 md:mb-6 backdrop-blur-md"
+            className="mt-4 md:mt-6 inline-flex items-center rounded-full border border-[#D4A46A] px-4 py-2 md:px-8 md:py-3 shadow-2xl mb-4 md:mb-5 backdrop-blur-md"
             style={{ background: 'rgba(9,43,28,0.85)' }}
           >
             <span 
-              className="font-cinzel text-[0.65rem] md:text-xs tracking-[0.2em] uppercase font-semibold"
+              className="font-cinzel text-[0.55rem] md:text-xs tracking-[0.16em] md:tracking-[0.2em] uppercase font-semibold"
               style={{ color: '#F0C97A', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}
             >
               Premium Coastal Villa Plot Community
@@ -187,7 +183,7 @@ export function Hero({ onBrochureClick }: Props) {
           </div>
 
           {/* Location details */}
-          <div className="flex items-center gap-2 mb-8 md:mb-10 text-white/95">
+          <div className="flex items-center gap-2 mb-5 md:mb-8 text-white/95">
             <MapPin className="h-4 w-4 md:h-4.5 md:w-4.5 text-[#D4A46A]" />
             <span className="font-outfit text-[10px] md:text-xs tracking-[0.25em] uppercase font-bold">
               KUNDAPURA, KARNATAKA
@@ -195,10 +191,10 @@ export function Hero({ onBrochureClick }: Props) {
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex w-full max-w-xs flex-col justify-center gap-3 sm:max-w-none sm:flex-row md:gap-4">
             <button
               onClick={onBrochureClick}
-              className="ripple-btn flex items-center gap-2 rounded-sm border border-[#D4A46A] px-6 py-3.5 md:px-7 md:py-4 text-[10px] md:text-xs tracking-widest uppercase font-bold text-white transition-transform hover:scale-[1.03] shadow-2xl"
+              className="ripple-btn flex w-full items-center justify-center gap-2 rounded-sm border border-[#D4A46A] px-5 py-3 md:w-auto md:px-7 md:py-4 text-[10px] md:text-xs tracking-widest uppercase font-bold text-white transition-transform hover:scale-[1.03] shadow-2xl"
               style={{ background: '#B07848' }}
             >
               <Download className="h-4 w-4" />
@@ -209,7 +205,7 @@ export function Hero({ onBrochureClick }: Props) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => analytics.whatsappClick('hero')}
-              className="ripple-btn flex items-center gap-2 rounded-sm px-6 py-3.5 md:px-7 md:py-4 text-[10px] md:text-xs tracking-widest uppercase font-bold text-white transition-transform hover:scale-[1.03] shadow-2xl"
+              className="ripple-btn flex w-full items-center justify-center gap-2 rounded-sm px-5 py-3 md:w-auto md:px-7 md:py-4 text-[10px] md:text-xs tracking-widest uppercase font-bold text-white transition-transform hover:scale-[1.03] shadow-2xl"
               style={{ background: '#25D366' }}
             >
               <MessageCircle className="h-4 w-4" />
@@ -224,10 +220,10 @@ export function Hero({ onBrochureClick }: Props) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.7 }}
-        className="relative z-10 w-full flex items-center justify-center gap-3 md:gap-4 pb-4 md:pb-6"
+        className="relative z-10 w-full flex items-center justify-center gap-2 md:gap-4 px-4 pb-3 md:pb-5"
       >
         <div className="h-[0.5px] w-8 md:w-12 bg-[#D4A46A]/50" />
-        <span className="font-cinzel text-[0.6rem] md:text-[0.68rem] tracking-[0.25em] uppercase text-white/80">
+        <span className="font-cinzel text-[0.52rem] md:text-[0.68rem] tracking-[0.18em] md:tracking-[0.25em] uppercase text-white/80 text-center">
           Developed by <span className="font-bold text-white">Sri Brahmari Developers</span>
         </span>
         <div className="h-[0.5px] w-8 md:w-12 bg-[#D4A46A]/50" />
@@ -241,7 +237,7 @@ export function Hero({ onBrochureClick }: Props) {
         className="relative z-20 w-full border-t border-white/5"
         style={{ background: '#071810' }}
       >
-        <div className="max-w-7xl mx-auto py-5 md:py-6 md:px-12 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto py-3.5 md:py-5 md:px-12 relative overflow-hidden">
           
           {/* Premium Golden Leaf Embroidery Watermark */}
           <div className="absolute inset-0 pointer-events-none flex items-center justify-between overflow-hidden opacity-[0.06] mix-blend-plus-lighter text-[#D4A46A]">
@@ -264,7 +260,7 @@ export function Hero({ onBrochureClick }: Props) {
           </div>
 
           {/* Premium Auto-Scroll Marquee */}
-          <div className="relative z-10 w-full overflow-hidden flex py-2">
+          <div className="relative z-10 w-full overflow-hidden flex py-1">
             {/* Edge fade masks for seamless infinite scroll look */}
             <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#071810] to-transparent z-20 pointer-events-none" />
             <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#071810] to-transparent z-20 pointer-events-none" />
@@ -281,8 +277,8 @@ export function Hero({ onBrochureClick }: Props) {
               {[...NEW_FLYER_STATS, ...NEW_FLYER_STATS].map((s, idx) => {
                 const Icon = s.icon
                 return (
-                  <div key={idx} className="flex-shrink-0 w-[220px] md:w-[280px] flex flex-col items-center text-center px-4 md:px-8 border-r border-white/5">
-                    <div className="mb-3 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full border border-white/5 bg-white/[0.02] transition-colors duration-500 hover:bg-[#D4A46A]/10 hover:border-[#D4A46A]/30 group">
+                  <div key={idx} className="flex-shrink-0 w-[190px] md:w-[280px] flex flex-col items-center text-center px-3 md:px-8 border-r border-white/5">
+                    <div className="mb-2 md:mb-3 flex h-9 w-9 md:h-12 md:w-12 items-center justify-center rounded-full border border-white/5 bg-white/[0.02] transition-colors duration-500 hover:bg-[#D4A46A]/10 hover:border-[#D4A46A]/30 group">
                       <Icon className="h-4 w-4 md:h-5 md:w-5 text-[#D4A46A] transition-transform duration-500 group-hover:scale-110" strokeWidth={1.5} />
                     </div>
                     <p className="font-cinzel font-semibold text-[0.7rem] md:text-[0.8rem] leading-tight text-white/90 mb-1.5 tracking-wider transition-colors duration-300 hover:text-white">
@@ -304,7 +300,7 @@ export function Hero({ onBrochureClick }: Props) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.5 }}
-        className="relative z-20 w-full py-3 md:py-4 text-center bg-[#FDFAF5] border-b border-[#E2D9CC]/50"
+        className="relative z-20 w-full py-2.5 md:py-3.5 text-center bg-[#FDFAF5] border-b border-[#E2D9CC]/50"
       >
         <h2 className="font-cinzel text-xs md:text-sm font-bold tracking-[0.3em] uppercase" style={{ color: '#092B1C' }}>
           OWN LAND. BUILD YOUR FUTURE.

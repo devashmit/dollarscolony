@@ -15,7 +15,7 @@ const STEPS = [
 
 export function BookingProcess() {
   return (
-    <section className="pt-4 pb-10 md:pb-12 lg:pb-14 relative overflow-hidden" style={{ background: '#0D1F2D' }}>
+    <section className="pt-3 pb-7 md:pb-10 lg:pb-12 relative overflow-hidden" style={{ background: '#0D1F2D' }}>
       {/* Premium Golden Leaf Embroidery Watermark */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-between overflow-hidden opacity-[0.03] mix-blend-plus-lighter text-[#D4A46A] z-0">
         <div className="relative -translate-x-1/3 -translate-y-1/4 rotate-45 transform">
@@ -33,9 +33,9 @@ export function BookingProcess() {
            </svg>
         </div>
       </div>
-      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
+      <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-12">
         {/* Header */}
-        <div className="mb-14 text-center">
+        <div className="mb-8 md:mb-10 text-center">
           <p className="font-playfair text-sm italic tracking-widest" style={{ color: '#B07848' }}>
             How to Book
           </p>
@@ -54,7 +54,7 @@ export function BookingProcess() {
             aria-hidden="true"
           />
 
-          <div className="grid gap-8 md:grid-cols-7">
+          <div className="grid gap-5 md:gap-8 md:grid-cols-7">
             {STEPS.map((step, i) => {
               const Icon = step.icon
               return (
@@ -68,15 +68,15 @@ export function BookingProcess() {
                 >
                   {/* Step number */}
                   <div
-                    className="relative z-10 flex h-[72px] w-[72px] flex-col items-center justify-center rounded-full border-2 font-mono text-xl font-bold transition-all"
+                    className="relative z-10 flex h-14 w-14 md:h-[72px] md:w-[72px] flex-col items-center justify-center rounded-full border-2 font-mono text-base md:text-xl font-bold transition-all"
                     style={{ borderColor: '#B07848', background: '#0D1F2D', color: '#B07848' }}
                   >
-                    <Icon className="h-6 w-6" />
+                    <Icon className="h-5 w-5 md:h-6 md:w-6" />
                     <span className="mt-0.5 text-xs font-mono">{String(i + 1).padStart(2, '0')}</span>
                   </div>
 
-                  <p className="mt-4 text-xs font-bold uppercase tracking-widest text-white">{step.label}</p>
-                  <p className="mt-2 text-xs leading-snug" style={{ color: '#8A9BB0' }}>{step.desc}</p>
+                  <p className="mt-3 md:mt-4 text-xs font-bold uppercase tracking-widest text-white">{step.label}</p>
+                  <p className="mt-1.5 md:mt-2 text-xs leading-snug" style={{ color: '#8A9BB0' }}>{step.desc}</p>
                 </motion.div>
               )
             })}

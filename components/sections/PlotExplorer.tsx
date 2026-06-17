@@ -44,17 +44,17 @@ export function PlotExplorer() {
   }
 
   return (
-    <div className="mt-20 w-full">
+    <div className="mt-10 md:mt-14 w-full">
 
       {/* ── Section Header ─────────────────────────────────── */}
-      <div className="text-center mb-10">
+      <div className="text-center mb-7 md:mb-9">
         <p className="font-cinzel text-[0.65rem] tracking-[0.4em] uppercase text-[#D4A46A] mb-3">
           Complete Inventory
         </p>
         <h3 className="font-cinzel text-2xl md:text-3xl font-bold text-white tracking-[0.08em]">
           Plot Finder
         </h3>
-        <div className="flex items-center justify-center gap-4 mt-5">
+        <div className="flex items-center justify-center gap-4 mt-4 md:mt-5">
           <div className="h-px w-16" style={{ background: 'linear-gradient(to right, transparent, #D4A46A66)' }} />
           <svg width="8" height="8" viewBox="0 0 8 8">
             <rect x="4" y="0" width="5.6" height="5.6" transform="rotate(45 4 0)" fill="#D4A46A" opacity="0.7" />
@@ -72,7 +72,7 @@ export function PlotExplorer() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.35 }}
-            className="flex flex-col items-center gap-6 py-10"
+            className="flex flex-col items-center gap-4 md:gap-6 py-6 md:py-8"
           >
             {/* Preview count badges */}
             <div className="flex items-center gap-3 flex-wrap justify-center">
@@ -104,7 +104,7 @@ export function PlotExplorer() {
             {/* Open button */}
             <motion.button
               onClick={() => setIsOpen(true)}
-              className="group relative flex items-center gap-3 px-10 py-4 font-cinzel text-[0.7rem] tracking-[0.25em] uppercase font-bold text-white overflow-hidden"
+              className="group relative flex items-center gap-3 px-7 md:px-10 py-3.5 md:py-4 font-cinzel text-[0.7rem] tracking-[0.22em] md:tracking-[0.25em] uppercase font-bold text-white overflow-hidden"
               style={{
                 border: '1px solid rgba(212,164,106,0.4)',
                 background: 'transparent',
@@ -143,7 +143,7 @@ export function PlotExplorer() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.05 }}
-              className="mb-8 space-y-5"
+              className="mb-6 md:mb-8 space-y-4 md:space-y-5"
             >
               {/* Search */}
               <div className="relative max-w-sm mx-auto md:mx-0">
@@ -164,7 +164,7 @@ export function PlotExplorer() {
                   <button
                     key={b}
                     onClick={() => setSelectedBlock(b)}
-                    className="font-cinzel text-[0.62rem] tracking-[0.15em] uppercase px-4 py-1.5 transition-all duration-200"
+                    className="font-cinzel text-[0.62rem] tracking-[0.15em] uppercase px-3 md:px-4 py-1.5 transition-all duration-200"
                     style={{
                       borderBottom: selectedBlock === b ? '1.5px solid #D4A46A' : '1.5px solid transparent',
                       color: selectedBlock === b ? '#F0C97A' : 'rgba(255,255,255,0.4)',
@@ -182,7 +182,7 @@ export function PlotExplorer() {
                   <button
                     key={c}
                     onClick={() => setSelectedCategory(c)}
-                    className="font-outfit text-[0.62rem] tracking-wider uppercase px-4 py-1.5 rounded-full transition-all duration-200 border"
+                    className="font-outfit text-[0.62rem] tracking-wider uppercase px-3 md:px-4 py-1.5 rounded-full transition-all duration-200 border"
                     style={{
                       borderColor: selectedCategory === c ? '#D4A46A' : 'rgba(255,255,255,0.1)',
                       background: selectedCategory === c ? 'rgba(212,164,106,0.12)' : 'transparent',
@@ -239,7 +239,7 @@ export function PlotExplorer() {
                       transition={{ duration: 0.2, delay: idx * 0.012 }}
                       whileHover={{ backgroundColor: 'rgba(212,164,106,0.08)' }}
                       onClick={() => setActivePlot(plot)}
-                      className="group flex flex-col items-center justify-center py-4 px-1 transition-all duration-200 relative border-b border-r"
+                      className="group flex flex-col items-center justify-center py-3 md:py-4 px-1 transition-all duration-200 relative border-b border-r"
                       style={{
                         borderColor: 'rgba(255,255,255,0.05)',
                         background: isActive ? 'rgba(212,164,106,0.12)' : 'transparent',
@@ -279,7 +279,7 @@ export function PlotExplorer() {
             </motion.div>
 
             {/* ── Legend ───────────────────────────────────────── */}
-            <div className="mt-6 flex flex-wrap justify-center gap-6 pt-5 border-t border-white/5">
+            <div className="mt-5 md:mt-6 flex flex-wrap justify-center gap-4 md:gap-6 pt-4 md:pt-5 border-t border-white/5">
               {[
                 { label: 'Lifestyle  ·  < 3,400 Sq.Ft.', accent: getCategoryAccent('Lifestyle') },
                 { label: 'Premium  ·  3,400–3,500 Sq.Ft.', accent: getCategoryAccent('Premium') },

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { X, Menu } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useScrollPosition } from '@/hooks/useScrollPosition'
 import { analytics } from '@/lib/analytics'
@@ -47,7 +47,7 @@ export function Navbar({ onBrochureClick }: Props) {
           borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : 'none',
         }}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6 md:py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 md:px-6 md:py-3">
           {/* Logo */}
           <a href="#" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
             className="font-cinzel text-lg font-bold tracking-wide text-white" aria-label="Dollars Colony Home">
@@ -98,8 +98,8 @@ export function Navbar({ onBrochureClick }: Props) {
 
           {/* Mobile hamburger */}
           <button
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
             className="rounded-lg p-2 text-white md:hidden"
           >
             <Menu className="h-6 w-6" />
@@ -116,10 +116,10 @@ export function Navbar({ onBrochureClick }: Props) {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="absolute top-full left-0 right-0 z-40 overflow-hidden border-b border-white/10 shadow-2xl"
+            className="fixed left-0 right-0 top-[57px] z-40 overflow-hidden border-b border-white/10 shadow-2xl md:hidden"
             style={{ background: '#0D1F2D' }}
           >
-            <div className="flex flex-col px-4 py-4">
+            <div className="flex flex-col px-4 py-3.5">
               {/* Links */}
               <nav className="flex flex-col gap-3" aria-label="Mobile navigation">
                 {NAV_LINKS.map((link, i) => (
@@ -137,7 +137,7 @@ export function Navbar({ onBrochureClick }: Props) {
               </nav>
 
               {/* Mobile CTAs */}
-              <div className="mt-6 flex flex-col gap-2.5">
+              <div className="mt-4 flex flex-col gap-2.5">
                 <button
                   onClick={() => { onBrochureClick?.(); setOpen(false) }}
                   className="ripple-btn w-full rounded-sm border py-2.5 text-xs font-bold tracking-widest uppercase text-white transition-all hover:bg-white/5"

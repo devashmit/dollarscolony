@@ -15,18 +15,18 @@ function DynamicIcon({ name, className }: { name: string; className?: string }) 
 
 export function Highlights() {
   return (
-    <section id="highlights" className="py-10 md:py-12 lg:py-14" style={{ background: '#050B14' }}>
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section id="highlights" className="py-7 md:py-10 lg:py-12" style={{ background: '#050B14' }}>
+      <div className="mx-auto max-w-7xl px-5 md:px-12">
         
         {/* Header - Editorial Minimal */}
-        <div className="mb-12 md:mb-16">
+        <div className="mb-8 md:mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-4 md:mb-5">
               {/* Luxury Golden Emblem */}
               <motion.div
                 initial={{ rotate: -90, opacity: 0, scale: 0 }}
@@ -55,7 +55,7 @@ export function Highlights() {
                 />
               </div>
             </div>
-            <h2 className="font-playfair text-4xl md:text-6xl font-normal text-white leading-[1.1]">
+            <h2 className="font-playfair text-3xl md:text-6xl font-normal text-white leading-[1.1]">
               Curated for <br className="hidden md:block" />
               <span className="italic text-white/50">Exceptional Living</span>
             </h2>
@@ -79,7 +79,7 @@ export function Highlights() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-10%" }}
-              className="group relative flex flex-row items-center justify-between py-4 md:py-6 transition-colors duration-300 hover:bg-[#D4A46A]/[0.03]"
+              className="group relative flex flex-row items-center justify-between py-3.5 md:py-5 transition-colors duration-300 hover:bg-[#D4A46A]/[0.03]"
             >
               {/* Bottom Border Draw Animation */}
               <motion.div 
@@ -145,5 +145,4 @@ export function Highlights() {
     </section>
   )
 }
-
 

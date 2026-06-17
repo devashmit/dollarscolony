@@ -41,7 +41,7 @@ function formatLeadEmail(lead: LeadData): string {
  */
 export async function sendLeadEmail(lead: LeadData): Promise<boolean> {
   const resendKey = process.env.RESEND_API_KEY
-  const emailTo   = process.env.EMAIL_TO || 'shettysrikrishna@gmail.com,sales@dollarscolony.in'
+  const emailTo   = process.env.EMAIL_TO || 'sales@dollarscolony.in'
 
   if (!emailTo) {
     console.warn('[email] EMAIL_TO not set, skipping notification.')

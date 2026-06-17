@@ -5,8 +5,8 @@ import { motion } from 'framer-motion'
 
 export function Developer() {
   return (
-    <section className="py-10 md:py-12 lg:py-14" style={{ background: '#F5F0E8' }}>
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section className="py-7 md:py-10 lg:py-12" style={{ background: '#F5F0E8' }}>
+      <div className="mx-auto max-w-7xl px-5 md:px-12">
         <div className="mx-auto max-w-3xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -15,18 +15,18 @@ export function Developer() {
             transition={{ duration: 0.6 }}
           >
             {/* Sri Brahmari Developers Logo (Cropped Lotus + Crisp HTML Text) */}
-            <div className="flex flex-col items-center justify-center mb-4 md:mb-6 select-none">
+            <div className="flex flex-col items-center justify-center mb-3 md:mb-5 select-none">
               <div
                 style={{
-                  width: 100,
-                  height: 75,
+                  width: 82,
+                  height: 62,
                   overflow: 'hidden',
                 }}
               >
                 <Image
                   src="/sri-brahmari-logo-transparent.png"
                   alt="Sri Brahmari Developers Logo"
-                  width={100}
+                  width={82}
                   height={150}
                   className="object-cover object-top block"
                   style={{ objectPosition: 'top center', height: '100%' }}
@@ -48,7 +48,7 @@ export function Developer() {
             </h2>
 
             <div
-              className="mx-auto mt-8 rounded-2xl p-8 text-left"
+              className="mx-auto mt-5 md:mt-7 rounded-xl md:rounded-2xl p-5 md:p-8 text-left"
               style={{ background: '#FDFAF5', border: '1px solid #E2D9CC' }}
             >
               <p className="leading-relaxed" style={{ color: '#4A5568' }}>
@@ -59,7 +59,7 @@ export function Developer() {
               </p>
 
               {/* Values */}
-              <div className="mt-8 grid grid-cols-3 gap-4 border-t pt-6" style={{ borderColor: '#E2D9CC' }}>
+              <div className="mt-5 md:mt-7 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t pt-5 md:pt-6" style={{ borderColor: '#E2D9CC' }}>
                 {[
                   ['Transparent',  'No hidden terms or pressure sales'],
                   ['Community',    'Built for long-term residents'],

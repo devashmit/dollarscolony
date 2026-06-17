@@ -91,8 +91,8 @@ const jsonLd = {
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 13.6263,
-    longitude: 74.6758,
+    latitude: 13.6252003,
+    longitude: 74.6792679,
   },
   sameAs: ['https://dollarscolony.in'],
 }

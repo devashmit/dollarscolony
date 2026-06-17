@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
 import HomePage from './home'
 
 export const metadata: Metadata = {

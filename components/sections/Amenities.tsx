@@ -14,7 +14,7 @@ function DynamicIcon({ name }: { name: string }) {
 
 export function Amenities() {
   return (
-    <section id="amenities" className="py-10 md:py-12 lg:pb-14 relative overflow-hidden" style={{ background: '#0D1F2D' }}>
+    <section id="amenities" className="py-7 md:py-10 lg:pb-12 relative overflow-hidden" style={{ background: '#0D1F2D' }}>
       {/* Premium Golden Leaf Embroidery Watermark */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-between overflow-hidden opacity-[0.03] mix-blend-plus-lighter text-[#D4A46A] z-0">
         <div className="relative -translate-x-1/3 -translate-y-1/4 rotate-45 transform">
@@ -33,23 +33,23 @@ export function Amenities() {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
+      <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-12">
         {/* Header */}
-        <div className="mb-14 text-center">
-          <LotusDivider className="mb-4" />
+        <div className="mb-8 md:mb-10 text-center">
+          <LotusDivider className="mb-3 md:mb-4" />
           <p className="font-playfair text-sm italic tracking-widest" style={{ color: '#B07848' }}>
             Clubhouse & Facilities
           </p>
           <h2 className="text-section-title mt-3 font-playfair font-bold text-white">
             Life Beyond the Plot
           </h2>
-          <p className="mt-4 mx-auto max-w-lg text-sm leading-relaxed" style={{ color: '#8A9BB0' }}>
+          <p className="mt-3 md:mt-4 mx-auto max-w-lg text-sm leading-relaxed" style={{ color: '#8A9BB0' }}>
             The Dollars Colony clubhouse is designed for community, wellness, and everyday joy.
           </p>
         </div>
 
         {/* Grid */}
-        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid gap-3 md:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
           {amenities.map((a, i) => (
             <motion.div
               key={a.label}
@@ -57,7 +57,7 @@ export function Amenities() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: i * 0.06 }}
-              className="flex flex-col items-center gap-3 rounded-2xl px-4 py-7 text-center transition-all duration-300 hover:scale-[1.04] relative overflow-hidden group"
+              className="flex flex-col items-center gap-2.5 md:gap-3 rounded-xl md:rounded-2xl px-3 md:px-4 py-5 md:py-7 text-center transition-all duration-300 hover:scale-[1.04] relative overflow-hidden group"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)' }}
             >
 

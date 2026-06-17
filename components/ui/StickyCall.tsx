@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function StickyCall({
-  phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER ?? '+916361512031',
+  phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER ?? '9035624148',
 }: Props) {
   return (
     <a

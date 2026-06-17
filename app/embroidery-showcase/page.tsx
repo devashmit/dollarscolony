@@ -119,7 +119,7 @@ export default function EmbroideryShowcase() {
             return (
               <button
                 key={key}
-                onClick={() => setSelectedStyle(key as any)}
+                onClick={() => setSelectedStyle(key as typeof selectedStyle)}
                 className={`w-full text-left p-6 rounded-lg border transition-all duration-300 relative overflow-hidden group ${
                   isSelected
                     ? 'border-[#C5A059] bg-[#C5A059]/10 shadow-[0_0_15px_rgba(197,160,89,0.15)]'

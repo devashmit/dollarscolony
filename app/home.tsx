@@ -64,7 +64,7 @@ export default function HomePage() {
         <MorphSection index={2}><Highlights /></MorphSection>
         <MorphSection index={3}><Differentiators /></MorphSection>
         <MorphSection index={4}><Plots          onBrochureClick={openBrochure} /></MorphSection>
-        <MorphSection index={5}><Masterplan     onBrochureClick={openBrochure} /></MorphSection>
+        <MorphSection index={5}><Masterplan /></MorphSection>
         <MorphSection index={6}><Amenities /></MorphSection>
         <MorphSection index={7}><Location /></MorphSection>
         <MorphSection index={8}><WhyKundapura /></MorphSection>
