@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function StickyWhatsApp({
-  phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '19035624148',
+  phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '919035624148',
   message = "Hi, I'm interested in Dollars Colony",
 }: Props) {
   const href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`

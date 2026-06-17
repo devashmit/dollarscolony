@@ -82,7 +82,7 @@ export function Footer() {
               </p>
               <div className="flex flex-col gap-3">
                 <a
-                  href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '19035624148'}`}
+                  href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '919035624148'}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group inline-flex items-center gap-2 rounded-sm border border-[#25D366]/30 bg-[#25D366]/10 px-4 py-2.5 transition-all hover:bg-[#25D366] hover:border-[#25D366]"

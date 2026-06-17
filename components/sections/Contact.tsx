@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function Contact({ onBrochureClick }: Props) {
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '19035624148'
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '919035624148'
   const phoneNumber    = process.env.NEXT_PUBLIC_PHONE_NUMBER    ?? '9035624148'
   const waHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi, I'm interested in Dollars Colony")}`
 
