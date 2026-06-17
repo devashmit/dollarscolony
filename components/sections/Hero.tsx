@@ -65,12 +65,12 @@ export function Hero({ onBrochureClick }: Props) {
         aria-hidden="true"
       />
 
-      {/* Symmetrical Floating Pre-Launch Shield Ribbon in Top Right */}
+      {/* Symmetrical Floating Pre-Launch Shield Ribbon (Responsive) */}
       <motion.div 
         initial={{ opacity: 0, y: -25 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5 }}
-        className="absolute top-24 right-12 z-20 hidden w-[104px] h-[135px] flex-col items-center justify-center p-3 select-none md:flex"
+        className="absolute top-16 right-4 z-20 sm:top-20 sm:right-6 md:top-24 md:right-12 w-[90px] h-[115px] sm:w-[95px] sm:h-[125px] md:w-[104px] md:h-[135px] flex flex-col items-center justify-center p-3 select-none"
       >
         {/* Shield Background SVG */}
         <div className="absolute inset-0 z-0">
@@ -82,7 +82,7 @@ export function Hero({ onBrochureClick }: Props) {
         {/* Shield Content */}
         <div className="relative z-10 flex flex-col items-center justify-center text-center mt-[-8px]">
           {/* Detailed 5-Point Crown */}
-          <svg className="text-[#D4A46A] w-8 h-6 md:w-10 md:h-8 mb-1 md:mb-1.5" viewBox="0 0 100 80" fill="currentColor">
+          <svg className="text-[#D4A46A] w-7 h-5 sm:w-8 sm:h-6 md:w-10 md:h-8 mb-0.5 sm:mb-1 md:mb-1.5" viewBox="0 0 100 80" fill="currentColor">
             {/* Base lines */}
             <rect x="20" y="58" width="60" height="3.5" rx="1" />
             <rect x="23" y="65" width="54" height="2.5" rx="1" />
@@ -95,7 +95,7 @@ export function Hero({ onBrochureClick }: Props) {
             <circle cx="64" cy="26" r="2.8" />
             <circle cx="78" cy="36" r="2.2" />
           </svg>
-          <span className="font-cinzel text-[0.5rem] md:text-[0.62rem] text-[#D4A46A] tracking-[0.18em] md:tracking-[0.22em] uppercase font-bold text-center leading-relaxed block mt-1">
+          <span className="font-cinzel text-[0.45rem] sm:text-[0.5rem] md:text-[0.62rem] text-[#D4A46A] tracking-[0.16em] sm:tracking-[0.18em] md:tracking-[0.22em] uppercase font-bold text-center leading-relaxed block mt-0.5 sm:mt-1">
             Pre<br />Launch<br />Offer
           </span>
         </div>
@@ -160,13 +160,6 @@ export function Hero({ onBrochureClick }: Props) {
               <rect x="5" y="0" width="7" height="7" transform="rotate(45 5 0)" fill="#D4A46A" />
             </svg>
             <div className="h-[1.5px] flex-1" style={{ background: 'linear-gradient(to left, transparent, #D4A46A)', filter: 'drop-shadow(0 0 3px rgba(212,164,106,0.8))' }} />
-          </div>
-
-          <div
-            className="mb-3 inline-flex items-center rounded-full border border-[#D4A46A] px-3.5 py-1.5 text-[0.55rem] font-bold uppercase tracking-[0.18em] text-[#F0C97A] shadow-lg backdrop-blur-md md:hidden"
-            style={{ background: 'rgba(9,43,28,0.85)', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}
-          >
-            Pre Launch Offer
           </div>
 
           {/* Elegant Pill Badge in Forest Green with Gold Border */}
