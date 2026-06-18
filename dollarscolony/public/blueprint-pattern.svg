@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <!-- Subtle architectural grid pattern -->
+  <rect width="80" height="80" fill="none"/>
+  <!-- Major grid line -->
+  <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#B07848" stroke-width="0.75" opacity="0.15"/>
+  <!-- Minor grid lines -->
+  <path d="M 20 0 L 20 80 M 40 0 L 40 80 M 60 0 L 60 80 M 0 20 L 80 20 M 0 40 L 80 40 M 0 60 L 80 60" fill="none" stroke="#B07848" stroke-width="0.25" opacity="0.08"/>
+</svg>
