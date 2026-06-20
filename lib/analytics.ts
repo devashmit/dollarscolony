@@ -46,20 +46,61 @@ export function trackConversion(): void {
 
 // ── Typed event helpers (used across components) ─────────────────────────────
 export const analytics = {
-  brochureInitiated: (source: string) =>
-    trackEvent('Download Brochure Click', { source }),
-  brochureDownloaded: (source: string) =>
-    trackEvent('Enquiry Form Submit', { source }),
+  /**
+   * WhatsApp link click
+   */
   whatsappClick: (source: string) =>
-    trackEvent('WhatsApp Click', { source }),
+    trackEvent('whatsapp_click', { source }),
+
+  /**
+   * Phone call link (tel:) click
+   */
   callClick: (source: string) =>
-    trackEvent('Call Click', { source }),
-  siteVisitRequested: () =>
-    trackEvent('Site Visit Enquiry'),
-  leadFormSubmitted: (interestedIn: string) => {
-    trackEvent('Enquiry Form Submit', { interested_in: interestedIn })
+    trackEvent('call_click', { source }),
+
+  /**
+   * Download Brochure button click (opens form modal)
+   */
+  brochureClick: (source: string) =>
+    trackEvent('brochure_click', { source }),
+
+  /**
+   * Successful enquiry form submission
+   */
+  enquiryFormSubmit: (interestedIn: string) => {
+    trackEvent('enquiry_form_submit', { interested_in: interestedIn })
     trackConversion()
   },
+
+  /**
+   * Brochure modal initiated (legacy compatibility)
+   */
+  brochureInitiated: (source: string) =>
+    trackEvent('brochure_click', { source }),
+
+  /**
+   * Brochure form submitted (legacy compatibility)
+   */
+  brochureDownloaded: (source: string) =>
+    trackEvent('enquiry_form_submit', { source }),
+
+  /**
+   * Site visit requested
+   */
+  siteVisitRequested: () =>
+    trackEvent('site_visit_enquiry'),
+
+  /**
+   * Plot card viewed
+   */
   plotCardViewed: (collection: string) =>
     trackEvent('plot_card_viewed', { collection }),
+
+  /**
+   * Lead form submission (main contact form)
+   */
+  leadFormSubmitted: (interestedIn: string) => {
+    trackEvent('enquiry_form_submit', { interested_in: interestedIn })
+    trackConversion()
+  },
 }

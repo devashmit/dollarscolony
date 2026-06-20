@@ -1,6 +1,7 @@
 'use client'
 
 import { MessageCircle } from 'lucide-react'
+import { analytics } from '@/lib/analytics'
 
 const QUICK_LINKS = [
   { label: 'About the Project', href: '#about'     },
@@ -85,6 +86,7 @@ export function Footer() {
                   href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '919035624148'}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => analytics.whatsappClick('footer')}
                   className="group inline-flex items-center gap-2 rounded-sm border border-[#25D366]/30 bg-[#25D366]/10 px-4 py-2.5 transition-all hover:bg-[#25D366] hover:border-[#25D366]"
                 >
                   <MessageCircle className="h-4 w-4 text-[#25D366] group-hover:text-white" />

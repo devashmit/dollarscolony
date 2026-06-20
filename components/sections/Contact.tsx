@@ -4,11 +4,59 @@ import { useState, useEffect } from 'react'
 import { Loader2, CheckCircle2, Phone, MessageCircle, Download } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { analytics } from '@/lib/analytics'
+import { useUTMParams } from '@/lib/utm'
+import type { LeadData } from '@/lib/types'
 
-const INTEREST_OPTIONS = ['Lifestyle', 'Premium', 'Signature', 'Investment', 'Site Visit']
+const CUSTOMER_INTEREST_OPTIONS = [
+  'Lifestyle',
+  'Premium',
+  'Signature',
+  'Investment',
+  'Site Visit',
+  'Brochure',
+]
+
+const BUYER_TYPE_OPTIONS = [
+  'End User',
+  'Investor',
+  'NRI',
+  'Holiday Home',
+  'Retirement Home',
+  'Broker',
+  'CP',
+]
+
+const PLOT_SIZE_OPTIONS = [
+  '2000–3000 sqft',
+  '3500 sqft',
+  '3500+ sqft',
+  'Not Sure',
+]
+
+const BUDGET_OPTIONS = [
+  'Below 40L',
+  '40L–60L',
+  '60L–80L',
+  '80L+',
+  'Not Shared',
+]
+
+const PURPOSE_OPTIONS = [
+  'Investment',
+  'Build Villa',
+  'Holiday Home',
+  'Retirement',
+  'Native Place',
+  'Not Shared',
+]
 
 interface Props {
   onBrochureClick?: () => void
+}
+
+interface ContactFormData extends Omit<LeadData, 'formName' | 'ctaClicked'> {
+  // Extended with optional fields for UI state
+  selectedPlot?: string | null
 }
 
 export function Contact({ onBrochureClick }: Props) {
@@ -16,49 +64,110 @@ export function Contact({ onBrochureClick }: Props) {
   const phoneNumber    = process.env.NEXT_PUBLIC_PHONE_NUMBER    ?? '9035624148'
   const waHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi, I'm interested in Dollars Colony")}`
 
-  const [form, setForm] = useState({ name: '', phone: '', city: '', interestedIn: '' })
+  const utmParams = useUTMParams()
+
+  const [form, setForm] = useState<ContactFormData>({
+    name: '',
+    phone: '',
+    email: '',
+    city: '',
+    customerInterest: '',
+    buyerType: '',
+    plotSize: '',
+    budget: '',
+    purpose: '',
+    enquiry: '',
+    utmSource: '',
+    utmCampaign: '',
+    selectedPlot: null,
+  })
+
   const [loading, setLoading]  = useState(false)
   const [success, setSuccess]  = useState(false)
   const [error,   setError]    = useState<string | null>(null)
-  const [selectedPlot, setSelectedPlot] = useState<string | null>(null)
+
+  useEffect(() => {
+    // Populate UTM params on mount
+    setForm(p => ({
+      ...p,
+      utmSource: utmParams.source,
+      utmCampaign: utmParams.campaign,
+    }))
+  }, [utmParams.source, utmParams.campaign])
 
   useEffect(() => {
     const handleSelectPlot = (e: Event) => {
       const detail = (e as CustomEvent).detail
       if (detail) {
-        setForm(p => ({ ...p, interestedIn: detail.category }))
-        setSelectedPlot(detail.plotId)
+        setForm(p => ({
+          ...p,
+          customerInterest: detail.category,
+          selectedPlot: detail.plotId,
+        }))
       }
     }
     window.addEventListener('selectPlot', handleSelectPlot)
     return () => window.removeEventListener('selectPlot', handleSelectPlot)
   }, [])
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
     setForm(p => ({ ...p, [e.target.name]: e.target.value }))
     setError(null)
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!form.interestedIn) { setError('Please select a plot collection or interest.'); return }
-    setLoading(true); setError(null)
+    if (!form.name || !form.phone) { setError('Name and phone are required.'); return }
+    if (!form.customerInterest) { setError('Please select a plot collection or interest.'); return }
+
+    setLoading(true)
+    setError(null)
+
     try {
+      const { selectedPlot, ...leadData } = form
+
+      const payload: LeadData = {
+        ...leadData,
+        formName: 'Contact Form',
+        ctaClicked: 'Contact Form',
+      }
+
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, selectedPlot, source: 'contact-form', timestamp: new Date().toISOString() }),
+        body: JSON.stringify(payload),
       })
+
       const data = await res.json()
       if (!res.ok) throw new Error(data.message ?? 'Submission failed.')
+
       setSuccess(true)
-      analytics.leadFormSubmitted(form.interestedIn)
-      setForm({ name: '', phone: '', city: '', interestedIn: '' })
+      analytics.enquiryFormSubmit(form.customerInterest)
+      setForm({
+        name: '',
+        phone: '',
+        email: '',
+        city: '',
+        customerInterest: '',
+        buyerType: '',
+        plotSize: '',
+        budget: '',
+        purpose: '',
+        enquiry: '',
+        utmSource: utmParams.source,
+        utmCampaign: utmParams.campaign,
+        selectedPlot: null,
+      })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
+  }
+
+  function handleBrochureClick() {
+    analytics.brochureClick('contact-section')
+    onBrochureClick?.()
   }
 
   return (
@@ -127,7 +236,7 @@ export function Contact({ onBrochureClick }: Props) {
               </a>
               <button
                 id="contact-brochure-btn"
-                onClick={onBrochureClick}
+                onClick={handleBrochureClick}
                 className="flex items-center gap-3 rounded-lg md:rounded-xl px-4 md:px-5 py-3.5 md:py-4 text-sm font-semibold text-white transition-all hover:opacity-90"
                 style={{ background: '#B07848' }}
               >
@@ -173,14 +282,15 @@ export function Contact({ onBrochureClick }: Props) {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-3.5 md:space-y-4" noValidate>
-                {selectedPlot && (
+                {form.selectedPlot && (
                   <div className="flex items-center justify-between rounded-xl px-4 py-3 text-sm border border-[#D4A46A]/35" style={{ background: 'rgba(212, 164, 106, 0.08)', color: '#D4A46A' }}>
-                    <span className="font-outfit font-medium">Selected Plot: <span className="font-mono font-bold text-white text-base">{selectedPlot}</span></span>
-                    <button type="button" onClick={() => setSelectedPlot(null)} className="text-white/60 hover:text-white text-xs underline">
+                    <span className="font-outfit font-medium">Selected Plot: <span className="font-mono font-bold text-white text-base">{form.selectedPlot}</span></span>
+                    <button type="button" onClick={() => setForm(p => ({ ...p, selectedPlot: null }))} className="text-white/60 hover:text-white text-xs underline">
                       Clear
                     </button>
                   </div>
                 )}
+
                 {/* Name */}
                 <div>
                   <label htmlFor="contact-name" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#8A9BB0' }}>
@@ -219,6 +329,23 @@ export function Contact({ onBrochureClick }: Props) {
                   />
                 </div>
 
+                {/* Email */}
+                <div>
+                  <label htmlFor="contact-email" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#8A9BB0' }}>
+                    Email
+                  </label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="your@email.com"
+                    className="w-full rounded-lg md:rounded-xl border px-4 py-3 md:py-3.5 text-sm outline-none transition-all"
+                    style={{ background: 'rgba(255,255,255,0.07)', borderColor: 'rgba(255,255,255,0.12)', color: '#fff' }}
+                  />
+                </div>
+
                 {/* City */}
                 <div>
                   <label htmlFor="contact-city" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#8A9BB0' }}>
@@ -237,25 +364,122 @@ export function Contact({ onBrochureClick }: Props) {
                   />
                 </div>
 
-                {/* Interested In */}
+                {/* Customer Interest */}
                 <div>
                   <label htmlFor="contact-interest" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#8A9BB0' }}>
                     Interested In *
                   </label>
                   <select
                     id="contact-interest"
-                    name="interestedIn"
+                    name="customerInterest"
                     required
-                    value={form.interestedIn}
+                    value={form.customerInterest}
                     onChange={handleChange}
                     className="w-full rounded-lg md:rounded-xl border px-4 py-3 md:py-3.5 text-sm outline-none transition-all"
-                    style={{ background: '#1A3348', borderColor: 'rgba(255,255,255,0.12)', color: form.interestedIn ? '#fff' : '#8A9BB0' }}
+                    style={{ background: '#1A3348', borderColor: 'rgba(255,255,255,0.12)', color: form.customerInterest ? '#fff' : '#8A9BB0' }}
                   >
                     <option value="" disabled>Select a collection or interest</option>
-                    {INTEREST_OPTIONS.map(o => (
+                    {CUSTOMER_INTEREST_OPTIONS.map(o => (
                       <option key={o} value={o} style={{ background: '#1A3348', color: '#fff' }}>{o}</option>
                     ))}
                   </select>
+                </div>
+
+                {/* Buyer Type */}
+                <div>
+                  <label htmlFor="contact-buyer-type" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#8A9BB0' }}>
+                    Buyer Type
+                  </label>
+                  <select
+                    id="contact-buyer-type"
+                    name="buyerType"
+                    value={form.buyerType}
+                    onChange={handleChange}
+                    className="w-full rounded-lg md:rounded-xl border px-4 py-3 md:py-3.5 text-sm outline-none transition-all"
+                    style={{ background: '#1A3348', borderColor: 'rgba(255,255,255,0.12)', color: form.buyerType ? '#fff' : '#8A9BB0' }}
+                  >
+                    <option value="">Select buyer type (optional)</option>
+                    {BUYER_TYPE_OPTIONS.map(o => (
+                      <option key={o} value={o} style={{ background: '#1A3348', color: '#fff' }}>{o}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Plot Size */}
+                <div>
+                  <label htmlFor="contact-plot-size" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#8A9BB0' }}>
+                    Preferred Plot Size
+                  </label>
+                  <select
+                    id="contact-plot-size"
+                    name="plotSize"
+                    value={form.plotSize}
+                    onChange={handleChange}
+                    className="w-full rounded-lg md:rounded-xl border px-4 py-3 md:py-3.5 text-sm outline-none transition-all"
+                    style={{ background: '#1A3348', borderColor: 'rgba(255,255,255,0.12)', color: form.plotSize ? '#fff' : '#8A9BB0' }}
+                  >
+                    <option value="">Select plot size (optional)</option>
+                    {PLOT_SIZE_OPTIONS.map(o => (
+                      <option key={o} value={o} style={{ background: '#1A3348', color: '#fff' }}>{o}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Budget */}
+                <div>
+                  <label htmlFor="contact-budget" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#8A9BB0' }}>
+                    Budget Range
+                  </label>
+                  <select
+                    id="contact-budget"
+                    name="budget"
+                    value={form.budget}
+                    onChange={handleChange}
+                    className="w-full rounded-lg md:rounded-xl border px-4 py-3 md:py-3.5 text-sm outline-none transition-all"
+                    style={{ background: '#1A3348', borderColor: 'rgba(255,255,255,0.12)', color: form.budget ? '#fff' : '#8A9BB0' }}
+                  >
+                    <option value="">Select budget (optional)</option>
+                    {BUDGET_OPTIONS.map(o => (
+                      <option key={o} value={o} style={{ background: '#1A3348', color: '#fff' }}>{o}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Purpose */}
+                <div>
+                  <label htmlFor="contact-purpose" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#8A9BB0' }}>
+                    Purpose
+                  </label>
+                  <select
+                    id="contact-purpose"
+                    name="purpose"
+                    value={form.purpose}
+                    onChange={handleChange}
+                    className="w-full rounded-lg md:rounded-xl border px-4 py-3 md:py-3.5 text-sm outline-none transition-all"
+                    style={{ background: '#1A3348', borderColor: 'rgba(255,255,255,0.12)', color: form.purpose ? '#fff' : '#8A9BB0' }}
+                  >
+                    <option value="">Select purpose (optional)</option>
+                    {PURPOSE_OPTIONS.map(o => (
+                      <option key={o} value={o} style={{ background: '#1A3348', color: '#fff' }}>{o}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Enquiry / Message */}
+                <div>
+                  <label htmlFor="contact-enquiry" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#8A9BB0' }}>
+                    Additional Comments
+                  </label>
+                  <textarea
+                    id="contact-enquiry"
+                    name="enquiry"
+                    rows={3}
+                    value={form.enquiry}
+                    onChange={handleChange}
+                    placeholder="Any additional details or questions?"
+                    className="w-full rounded-lg md:rounded-xl border px-4 py-3 md:py-3.5 text-sm outline-none transition-all resize-none"
+                    style={{ background: 'rgba(255,255,255,0.07)', borderColor: 'rgba(255,255,255,0.12)', color: '#fff' }}
+                  />
                 </div>
 
                 {/* Error */}

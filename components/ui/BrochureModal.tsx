@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X, Download, Loader2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { analytics } from '@/lib/analytics'
+import { useUTMParams } from '@/lib/utm'
 
 interface Props {
   open: boolean
@@ -13,11 +14,34 @@ interface Props {
 }
 
 export function BrochureModal({ open, onClose, source = 'brochure-download', selectedPlot }: Props) {
-  const [name, setName]       = useState('')
-  const [phone, setPhone]     = useState('')
+  const utmParams = useUTMParams()
+
+  const [form, setForm] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    city: '',
+    utmSource: '',
+    utmCampaign: '',
+  })
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      setForm(p => ({
+        ...p,
+        utmSource: utmParams.source,
+        utmCampaign: utmParams.campaign,
+      }))
+    }
+  }, [open, utmParams.source, utmParams.campaign])
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setForm(p => ({ ...p, [e.target.name]: e.target.value }))
+    setError(null)
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -27,16 +51,24 @@ export function BrochureModal({ open, onClose, source = 'brochure-download', sel
       const res = await fetch('/api/brochure', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, selectedPlot, source }),
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          email: form.email,
+          city: form.city,
+          selectedPlot: selectedPlot || undefined,
+          source,
+          utmSource: form.utmSource,
+          utmCampaign: form.utmCampaign,
+        }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.message ?? 'Request failed.')
 
-      analytics.brochureDownloaded(source)
+      analytics.enquiryFormSubmit('Brochure')
       
       setSuccess(true)
-      setName('')
-      setPhone('')
+      setForm({ name: '', phone: '', email: '', city: '', utmSource: '', utmCampaign: '' })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.')
     } finally {
@@ -45,7 +77,7 @@ export function BrochureModal({ open, onClose, source = 'brochure-download', sel
   }
 
   function handleOpen() {
-    analytics.brochureInitiated(source)
+    // Brochure modal open is already tracked by the button that opens it
   }
 
   return (
@@ -127,32 +159,67 @@ export function BrochureModal({ open, onClose, source = 'brochure-download', sel
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                       <label htmlFor="brochure-name" className="mb-1 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#4A5568' }}>
-                        Full Name
+                        Full Name *
                       </label>
                       <input
                         id="brochure-name"
+                        name="name"
                         type="text"
                         required
-                        value={name}
-                        onChange={e => setName(e.target.value)}
+                        value={form.name}
+                        onChange={handleChange}
                         placeholder="Your name"
                         className="w-full rounded-lg border px-4 py-3 text-sm outline-none transition-all focus:ring-2"
                         style={{ borderColor: '#E2D9CC', background: '#fff', color: '#0D1F2D' }}
                       />
                     </div>
+
                     <div>
                       <label htmlFor="brochure-phone" className="mb-1 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#4A5568' }}>
-                        Phone Number
+                        Phone Number *
                       </label>
                       <input
                         id="brochure-phone"
+                        name="phone"
                         type="tel"
                         required
-                        value={phone}
-                        onChange={e => setPhone(e.target.value)}
+                        value={form.phone}
+                        onChange={handleChange}
                         placeholder="10-digit mobile number"
                         pattern="[6-9][0-9]{9}"
                         maxLength={10}
+                        className="w-full rounded-lg border px-4 py-3 text-sm outline-none transition-all focus:ring-2"
+                        style={{ borderColor: '#E2D9CC', background: '#fff', color: '#0D1F2D' }}
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="brochure-email" className="mb-1 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#4A5568' }}>
+                        Email
+                      </label>
+                      <input
+                        id="brochure-email"
+                        name="email"
+                        type="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        placeholder="your@email.com"
+                        className="w-full rounded-lg border px-4 py-3 text-sm outline-none transition-all focus:ring-2"
+                        style={{ borderColor: '#E2D9CC', background: '#fff', color: '#0D1F2D' }}
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="brochure-city" className="mb-1 block text-xs font-semibold uppercase tracking-wider" style={{ color: '#4A5568' }}>
+                        City
+                      </label>
+                      <input
+                        id="brochure-city"
+                        name="city"
+                        type="text"
+                        value={form.city}
+                        onChange={handleChange}
+                        placeholder="Your city"
                         className="w-full rounded-lg border px-4 py-3 text-sm outline-none transition-all focus:ring-2"
                         style={{ borderColor: '#E2D9CC', background: '#fff', color: '#0D1F2D' }}
                       />

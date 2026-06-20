@@ -186,7 +186,10 @@ export function Hero({ onBrochureClick }: Props) {
           {/* CTAs */}
           <div className="flex w-full max-w-xs flex-col justify-center gap-3 sm:max-w-none sm:flex-row md:gap-4">
             <button
-              onClick={onBrochureClick}
+              onClick={() => {
+                analytics.brochureClick('hero')
+                onBrochureClick?.()
+              }}
               className="ripple-btn flex w-full items-center justify-center gap-2 rounded-sm border border-[#D4A46A] px-5 py-3 md:w-auto md:px-7 md:py-4 text-[10px] md:text-xs tracking-widest uppercase font-bold text-white transition-transform hover:scale-[1.03] shadow-2xl"
               style={{ background: '#B07848' }}
             >
