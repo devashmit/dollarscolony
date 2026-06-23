@@ -97,7 +97,7 @@ const jsonLd = {
   sameAs: ['https://dollarscolony.in'],
 }
 
-const GA_ID    = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+const GA_ID    = process.env.NEXT_PUBLIC_GA_ID
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -131,7 +131,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', '${GA_ID}', { page_path: window.location.pathname });
+                gtag('config', '${GA_ID}');
+                window.gtag = gtag;
               `}
             </Script>
           </>
