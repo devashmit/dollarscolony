@@ -3,16 +3,20 @@
 import { MessageCircle } from 'lucide-react'
 import { analytics } from '@/lib/analytics'
 
+import { useApiData } from '@/hooks/use-api-data'
+
 interface Props {
-  phoneNumber?: string
-  message?: string
+  phoneNumber?: string;
+  message?: string;
 }
 
 export function StickyWhatsApp({
-  phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '919035624148',
+  phoneNumber = '919035624148',
   message = "Hi, I'm interested in Dollars Colony",
 }: Props) {
-  const href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+  const { config } = useApiData();
+  const activeWhatsApp = config.whatsapp_number || phoneNumber;
+  const href = `https://wa.me/${activeWhatsApp}?text=${encodeURIComponent(message)}`
 
   return (
     <a

@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion'
 import * as Icons from 'lucide-react'
-import { amenities } from '@/data/amenities'
 import { LotusDivider } from '@/components/ui/GoldEmbroidery'
+import { amenities } from '@/data/amenities'
+import { useApiData } from '@/hooks/use-api-data'
+
 type LucideIconName = keyof typeof Icons
 
 function DynamicIcon({ name }: { name: string }) {
@@ -13,6 +15,13 @@ function DynamicIcon({ name }: { name: string }) {
 }
 
 export function Amenities() {
+  const { amenities: apiAmenities } = useApiData()
+  const activeAmenities = apiAmenities.length > 0 
+    ? apiAmenities.map(am => ({
+        label: am.title,
+        icon: am.icon || 'MapPin'
+      })) 
+    : amenities
   return (
     <section id="amenities" className="py-7 md:py-10 lg:pb-12 relative overflow-hidden" style={{ background: '#0D1F2D' }}>
       {/* Premium Golden Leaf Embroidery Watermark */}
@@ -50,7 +59,7 @@ export function Amenities() {
 
         {/* Grid */}
         <div className="grid gap-3 md:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-          {amenities.map((a, i) => (
+          {activeAmenities.map((a, i) => (
             <motion.div
               key={a.label}
               initial={{ opacity: 0, y: 24 }}

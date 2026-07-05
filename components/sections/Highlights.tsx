@@ -2,8 +2,9 @@
 
 import { motion } from 'framer-motion'
 import * as Icons from 'lucide-react'
-import { highlights } from '@/data/highlights'
 import { ArrowRight } from 'lucide-react'
+import { highlights } from '@/data/highlights'
+import { useApiData } from '@/hooks/use-api-data'
 
 type LucideIconName = keyof typeof Icons
 
@@ -14,6 +15,13 @@ function DynamicIcon({ name, className }: { name: string; className?: string }) 
 }
 
 export function Highlights() {
+  const { highlights: apiHighlights } = useApiData()
+  const activeHighlights = apiHighlights.length > 0 
+    ? apiHighlights.map(hi => ({
+        label: hi.title,
+        icon: hi.icon || 'MapPin'
+      })) 
+    : highlights
   return (
     <section id="highlights" className="py-7 md:py-10 lg:py-12" style={{ background: '#050B14' }}>
       <div className="mx-auto max-w-7xl px-5 md:px-12">
@@ -73,7 +81,7 @@ export function Highlights() {
             className="absolute top-0 left-0 right-0 h-[1px] bg-white/10 origin-left"
           />
 
-          {highlights.map((h, i) => (
+          {activeHighlights.map((h, i) => (
             <motion.div
               key={h.label}
               initial="hidden"

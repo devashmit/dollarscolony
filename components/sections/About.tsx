@@ -2,8 +2,11 @@
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { useApiData } from '@/hooks/use-api-data'
 
 export function About() {
+  const { config } = useApiData()
+  const activeAboutContent = config.project_content || "Dollars Colony @ Viaan Enclave is a premium coastal plotted community in Kundapura, created for families, NRIs, investors, holiday-home buyers and retirement-home buyers who want to own land in a well-planned community near the coast."
   return (
     <section id="about" className="py-7 md:py-10 lg:py-12" style={{ background: '#FDFAF5' }}>
       <div className="mx-auto max-w-7xl px-5 md:px-12">
@@ -42,7 +45,7 @@ export function About() {
               A Rare Address on Karnataka&apos;s Coastal Corridor
             </h2>
             <p className="mt-4 md:mt-6 leading-relaxed" style={{ color: '#4A5568' }}>
-              Dollars Colony @ Viaan Enclave is a premium coastal plotted community in Kundapura, created for families, NRIs, investors, holiday-home buyers and retirement-home buyers who want to own land in a well-planned community near the coast.
+              {activeAboutContent}
             </p>
             <p className="mt-4 leading-relaxed" style={{ color: '#4A5568' }}>
               Unlike regular plotted layouts, Dollars Colony is planned with clubhouse and lifestyle amenities, making it one of Kundapura’s first premium plotted communities in this category.

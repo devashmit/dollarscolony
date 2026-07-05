@@ -3,8 +3,12 @@
 import { Download } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { PlotExplorer } from './PlotExplorer'
+import { useApiData } from '@/hooks/use-api-data'
 
 export function Masterplan() {
+  const { downloads } = useApiData();
+  const masterplanPdfUrl = downloads.masterplan_pdf?.fileUrl || "/documents/masterplan.pdf";
+
   return (
     <section id="masterplan" className="pt-3 pb-7 md:pb-10 lg:pb-12 relative overflow-hidden" style={{ background: '#0D1F2D' }}>
       {/* Premium Golden Leaf Embroidery Watermark */}
@@ -39,7 +43,7 @@ export function Masterplan() {
         <div className="flex justify-center">
           <a
             id="masterplan-download-btn"
-            href="/documents/masterplan.pdf"
+            href={masterplanPdfUrl}
             download="Dollars_Colony_Masterplan.pdf"
             className="ripple-btn flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-white transition-all hover:scale-[1.02]"
             style={{ background: '#B07848' }}

@@ -5,25 +5,44 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Search, PhoneCall, X, LayoutGrid } from 'lucide-react'
 import { plotInventory, PlotData } from '@/data/inventory'
 import { analytics } from '@/lib/analytics'
+import { useApiData } from '@/hooks/use-api-data'
+import type { ApiPlot } from '@/lib/api'
+
+type MergedPlot = PlotData & {
+  price?: number | null
+  status: ApiPlot['status']
+}
 
 export function PlotExplorer() {
+  const { plots: apiPlots } = useApiData();
   const [isOpen, setIsOpen]               = useState(false)
   const [selectedBlock, setSelectedBlock] = useState<string>('All')
   const [selectedCategory, setSelectedCategory] = useState<string>('All')
   const [searchQuery, setSearchQuery]     = useState<string>('')
-  const [activePlot, setActivePlot]       = useState<PlotData | null>(null)
+  const [activePlot, setActivePlot]       = useState<MergedPlot | null>(null)
 
   const blocks     = ['All', 'A', 'B', 'C', 'D', 'E']
   const categories = ['All', 'Lifestyle', 'Premium', 'Signature']
 
+  const mergedPlots = useMemo<MergedPlot[]>(() => {
+    return plotInventory.map(staticPlot => {
+      const apiPlot = apiPlots.find(ap => ap.plotId === staticPlot.id);
+      return {
+        ...staticPlot,
+        price: apiPlot?.price,
+        status: apiPlot?.status || 'AVAILABLE',
+      };
+    });
+  }, [apiPlots]);
+
   const filteredPlots = useMemo(() => {
-    return plotInventory.filter(plot => {
+    return mergedPlots.filter(plot => {
       const matchesBlock    = selectedBlock === 'All' || plot.block === `Block ${selectedBlock}`
       const matchesCategory = selectedCategory === 'All' || plot.category === selectedCategory
       const matchesSearch   = plot.id.toLowerCase().includes(searchQuery.toLowerCase().trim())
       return matchesBlock && matchesCategory && matchesSearch
     })
-  }, [selectedBlock, selectedCategory, searchQuery])
+  }, [mergedPlots, selectedBlock, selectedCategory, searchQuery])
 
   const getCategoryAccent = (cat: string) => {
     if (cat === 'Signature') return '#F0C97A'
@@ -31,7 +50,7 @@ export function PlotExplorer() {
     return '#8A9BB0'
   }
 
-  const handleInquirePlot = (plot: PlotData) => {
+  const handleInquirePlot = (plot: MergedPlot) => {
     analytics.plotCardViewed(plot.id)
     const el = document.getElementById('contact')
     if (el) {
@@ -228,6 +247,8 @@ export function PlotExplorer() {
                 {filteredPlots.map((plot, idx) => {
                   const accent   = getCategoryAccent(plot.category)
                   const isActive = activePlot?.id === plot.id
+                  const isSold = plot.status === 'SOLD'
+                  const isBlocked = plot.status === 'BLOCKED'
 
                   return (
                     <motion.button
@@ -237,12 +258,13 @@ export function PlotExplorer() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.2, delay: idx * 0.012 }}
-                      whileHover={{ backgroundColor: 'rgba(212,164,106,0.08)' }}
+                      whileHover={{ backgroundColor: isSold ? 'transparent' : 'rgba(212,164,106,0.08)' }}
                       onClick={() => setActivePlot(plot)}
                       className="group flex flex-col items-center justify-center py-3 md:py-4 px-1 transition-all duration-200 relative border-b border-r"
                       style={{
                         borderColor: 'rgba(255,255,255,0.05)',
                         background: isActive ? 'rgba(212,164,106,0.12)' : 'transparent',
+                        opacity: isSold ? 0.35 : 1,
                       }}
                     >
                       <div
@@ -254,20 +276,20 @@ export function PlotExplorer() {
                       />
                       <span
                         className="font-cinzel text-sm font-bold tracking-wide transition-colors duration-200"
-                        style={{ color: isActive ? '#F0C97A' : 'rgba(255,255,255,0.75)' }}
+                        style={{ color: isSold ? 'rgba(255,255,255,0.3)' : isActive ? '#F0C97A' : 'rgba(255,255,255,0.75)' }}
                       >
                         {plot.id}
                       </span>
                       <span
                         className="font-mono text-[0.55rem] mt-1 transition-colors duration-200"
-                        style={{ color: isActive ? accent : 'rgba(255,255,255,0.25)' }}
+                        style={{ color: isActive ? accent : isSold ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.25)' }}
                       >
-                        {plot.sqft}
+                        {isSold ? 'SOLD' : isBlocked ? 'BLOCKED' : plot.sqft}
                       </span>
                       <div
                         className="w-1 h-1 rounded-full mt-1.5 transition-all duration-200"
                         style={{
-                          backgroundColor: accent,
+                          backgroundColor: isSold ? 'rgba(255,255,255,0.15)' : accent,
                           opacity: isActive ? 1 : 0.4,
                           transform: isActive ? 'scale(1.3)' : 'scale(1)',
                         }}
@@ -346,6 +368,8 @@ export function PlotExplorer() {
                     {[
                       { label: 'Area in Cents', value: `${activePlot.cents} Cents` },
                       { label: 'Area in Sq.Ft.', value: `${activePlot.sqft.toLocaleString()} Sq.Ft.`, highlight: true },
+                      { label: 'Status', value: activePlot.status, highlight: true },
+                      ...(activePlot.price ? [{ label: 'Price', value: `₹${activePlot.price.toLocaleString()}`, highlight: true }] : []),
                       { label: 'Ideal For', value: activePlot.category === 'Signature' ? 'Luxury Villa' : activePlot.category === 'Premium' ? 'Spacious Home' : 'Garden Villa' },
                     ].map(({ label, value, highlight }) => (
                       <div key={label} className="flex justify-between items-center py-3.5 border-b border-white/[0.06]">
@@ -357,12 +381,19 @@ export function PlotExplorer() {
                     ))}
                   </div>
                   <button
-                    onClick={() => handleInquirePlot(activePlot)}
-                    className="w-full py-3.5 text-[0.68rem] font-cinzel font-bold tracking-[0.2em] uppercase text-white flex items-center justify-center gap-2.5 transition-all duration-200 hover:brightness-110"
-                    style={{ background: '#B07848', borderRadius: '2px' }}
+                    onClick={() => activePlot.status === 'AVAILABLE' && handleInquirePlot(activePlot)}
+                    disabled={activePlot.status !== 'AVAILABLE'}
+                    className={`w-full py-3.5 text-[0.68rem] font-cinzel font-bold tracking-[0.2em] uppercase text-white flex items-center justify-center gap-2.5 transition-all duration-200 ${
+                      activePlot.status === 'AVAILABLE' ? 'hover:brightness-110' : 'opacity-50 cursor-not-allowed'
+                    }`}
+                    style={{ background: activePlot.status === 'AVAILABLE' ? '#B07848' : '#334155', borderRadius: '2px' }}
                   >
                     <PhoneCall className="h-3.5 w-3.5" />
-                    Enquire About Plot {activePlot.id}
+                    {activePlot.status === 'AVAILABLE'
+                      ? `Enquire About Plot ${activePlot.id}`
+                      : activePlot.status === 'SOLD'
+                        ? `Plot ${activePlot.id} - SOLD`
+                        : `Plot ${activePlot.id} - BLOCKED`}
                   </button>
                 </div>
               </motion.div>

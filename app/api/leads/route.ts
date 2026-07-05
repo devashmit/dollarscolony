@@ -52,15 +52,24 @@ export async function POST(request: NextRequest): Promise<Response> {
   const lead: LeadData = parsed.data as LeadData
   const leadId = `lead_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`
 
-  // 3. Send to both Google Sheets and Email simultaneously (non-blocking)
+  // 3. Send to Google Sheets, Email, and the Admin Panel API simultaneously (non-blocking)
   //    Use Promise.allSettled so one failure doesn't break the other
-  const [sheetsResult, emailResult] = await Promise.allSettled([
+  const API_BASE_URL = process.env.NEXT_PUBLIC_ADMIN_API_URL || "http://localhost:3000";
+  const [sheetsResult, emailResult, apiResult] = await Promise.allSettled([
     submitLeadToSheet(lead),
     sendLeadEmail(lead),
+    fetch(`${API_BASE_URL}/api/public/leads`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(lead),
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    }),
   ])
 
   if (process.env.NODE_ENV === 'development') {
-    console.log('[leads] sheets:', sheetsResult.status, '| email:', emailResult.status)
+    console.log('[leads] sheets:', sheetsResult.status, '| email:', emailResult.status, '| api:', apiResult.status)
   }
 
   // 4. Non-blocking local JSON write (dev convenience only, fails silently on Vercel)

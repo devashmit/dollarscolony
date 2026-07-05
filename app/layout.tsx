@@ -100,6 +100,8 @@ const jsonLd = {
 const GA_ID    = process.env.NEXT_PUBLIC_GA_ID
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
 
+import { ApiDataProvider } from '@/hooks/use-api-data'
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -117,7 +119,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="antialiased font-outfit" style={{ background: '#F5F0E8' }}>
         <Preloader />
         <GoldEmbroideryDefs />
-        {children}
+        <ApiDataProvider>
+          {children}
+        </ApiDataProvider>
 
         {/* ── Google Analytics 4 ───────────────────────────────────────────── */}
         {GA_ID && (
