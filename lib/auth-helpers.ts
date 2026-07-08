@@ -22,6 +22,11 @@ export function isAdminSession(session: any): boolean {
     return false;
   }
 
+  const hasAccessToken = Boolean(session.user.accessToken || session.user.token);
+  if (!hasAccessToken) {
+    return false;
+  }
+
   if (isAdminRole(session.user.role)) {
     return true;
   }
