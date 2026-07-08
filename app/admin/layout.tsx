@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import AdminShell from "@/components/admin/AdminShell";
+import { isAdminSession } from "@/lib/auth-helpers";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -9,7 +10,7 @@ interface AdminLayoutProps {
 export default async function AdminLayout({ children }: AdminLayoutProps) {
   const session = await auth();
 
-  if (!session || (session.user as any)?.role !== "admin") {
+  if (!session || !isAdminSession(session)) {
     redirect("/login");
   }
 

@@ -1,6 +1,24 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/auth.config";
+import { normalizeUserRole } from "@/lib/auth-helpers";
+
+function resolveBackendRole(user: any): string {
+  const normalizedRole = normalizeUserRole(user?.role);
+  if (normalizedRole) {
+    return normalizedRole;
+  }
+
+  if (user?.is_superuser) {
+    return "admin";
+  }
+
+  if (user?.is_staff) {
+    return "staff";
+  }
+
+  return "user";
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -34,7 +52,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               id: data.user.id,
               email: data.user.email,
               name: data.user.name,
-              role: data.user.role,
+              role: resolveBackendRole(data.user),
               accessToken: data.token,
             };
           }
