@@ -1,19 +1,63 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/auth.config";
-import { normalizeUserRole } from "@/lib/auth-helpers";
 
-function resolveBackendRole(user: any): string {
-  const normalizedRole = normalizeUserRole(user?.role);
+function normalizeUserRole(role: unknown): string | undefined {
+  if (typeof role === "string") {
+    const trimmed = role.trim();
+    return trimmed ? trimmed.toLowerCase() : undefined;
+  }
+  return undefined;
+}
+
+function getBackendToken(payload: any): string | undefined {
+  const candidates = [
+    payload?.token,
+    payload?.accessToken,
+    payload?.access_token,
+    payload?.auth_token,
+    payload?.key,
+    payload?.access?.token,
+    payload?.access?.access_token,
+    payload?.access?.accessToken,
+  ];
+
+  for (const candidate of candidates) {
+    if (typeof candidate === "string" && candidate.trim()) {
+      return candidate.trim();
+    }
+  }
+
+  return undefined;
+}
+
+function getBackendUser(payload: any): any {
+  if (payload?.user && typeof payload.user === "object") {
+    return payload.user;
+  }
+  if (payload?.profile && typeof payload.profile === "object") {
+    return payload.profile;
+  }
+  if (payload?.data && typeof payload.data === "object" && !Array.isArray(payload.data)) {
+    if (payload.data.user && typeof payload.data.user === "object") {
+      return payload.data.user;
+    }
+    return payload.data;
+  }
+  return undefined;
+}
+
+function resolveBackendRole(user: any, fallbackRole?: string): string {
+  const normalizedRole = normalizeUserRole(user?.role) || normalizeUserRole(fallbackRole);
   if (normalizedRole) {
     return normalizedRole;
   }
 
-  if (user?.is_superuser) {
+  if (user?.is_admin === true || user?.is_superuser === true || user?.admin === true) {
     return "admin";
   }
 
-  if (user?.is_staff) {
+  if (user?.is_staff === true) {
     return "staff";
   }
 
@@ -47,13 +91,26 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
 
           const data = await res.json();
-          if (data && data.token && data.user) {
+          const token = getBackendToken(data);
+          const userPayload = getBackendUser(data);
+
+          if (token && userPayload) {
             return {
-              id: data.user.id,
-              email: data.user.email,
-              name: data.user.name,
-              role: resolveBackendRole(data.user),
-              accessToken: data.token,
+              id: userPayload.id ?? data.id ?? data.user_id ?? userPayload.user_id,
+              email: userPayload.email ?? data.email ?? userPayload.username ?? data.username,
+              name: userPayload.name ?? userPayload.full_name ?? userPayload.username ?? userPayload.email,
+              role: resolveBackendRole(userPayload, data.role),
+              accessToken: token,
+            };
+          }
+
+          if (token && (data.email || data.username)) {
+            return {
+              id: data.id ?? data.user_id,
+              email: data.email ?? data.username,
+              name: data.name ?? data.full_name ?? data.username ?? data.email,
+              role: resolveBackendRole(data, data.role),
+              accessToken: token,
             };
           }
         } catch (error) {
