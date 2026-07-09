@@ -33,14 +33,18 @@ export default async function SettingsPage() {
       uploadedAt: a.updatedAt,
     }));
 
-    admins = dbAdmins.map((admin) => ({
-      id: admin.id,
-      name: admin.name || "",
-      email: admin.email,
-      role: admin.role,
-      lastLoginAt: admin.lastLoginAt ? admin.lastLoginAt.toISOString() : null,
-      createdAt: admin.createdAt.toISOString(),
-    }));
+    admins = dbAdmins.map((admin) => {
+      const lastLogin = admin.lastLoginAt;
+      const created = admin.createdAt;
+      return {
+        id: admin.id,
+        name: admin.name || "",
+        email: admin.email,
+        role: admin.role,
+        lastLoginAt: lastLogin ? (typeof lastLogin === "string" ? lastLogin : (lastLogin as Date).toISOString()) : null,
+        createdAt: created ? (typeof created === "string" ? created : (created as Date).toISOString()) : "",
+      };
+    });
   } catch (error) {
     console.error("Failed to load admin settings:", error);
     errorMessage = error instanceof Error ? error.message : "Unable to load admin settings";
