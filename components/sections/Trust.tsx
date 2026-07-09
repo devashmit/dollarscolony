@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { FileText, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { FileText, X, Star } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 // Only activate document badges when client confirms documents are available.
@@ -17,6 +17,23 @@ const DOCUMENTS = [
 export function Trust() {
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState('')
+  const [testimonials, setTestimonials] = useState<Array<{ id: string; author: string; role: string | null; company: string | null; body: string; rating: number }>>([])
+
+  useEffect(() => {
+    async function loadTestimonials() {
+      try {
+        const res = await fetch('/api/public/testimonials', { cache: 'no-store' })
+        const json = await res.json()
+        if (json.success && Array.isArray(json.data)) {
+          setTestimonials(json.data)
+        }
+      } catch {
+        setTestimonials([])
+      }
+    }
+
+    loadTestimonials()
+  }, [])
 
   function handleDocClick(label: string) {
     setSelected(label)
@@ -54,6 +71,25 @@ export function Trust() {
             </button>
           ))}
         </div>
+
+        {testimonials.length > 0 && (
+          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.id} className="rounded-2xl border border-[#E2D9CC] bg-white p-5 shadow-sm">
+                <div className="mb-3 flex items-center gap-1 text-[#B07848]">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star key={index} className={`h-4 w-4 ${index < testimonial.rating ? 'fill-current' : 'opacity-30'}`} />
+                  ))}
+                </div>
+                <p className="text-sm leading-relaxed text-[#4A5568]">“{testimonial.body}”</p>
+                <div className="mt-4">
+                  <p className="font-semibold text-[#0D1F2D]">{testimonial.author}</p>
+                  <p className="text-sm text-[#4A5568]">{[testimonial.role, testimonial.company].filter(Boolean).join(' • ')}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* "Available on request" modal */}
         <AnimatePresence>

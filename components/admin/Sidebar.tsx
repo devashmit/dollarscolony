@@ -15,6 +15,7 @@ import {
   Settings,
   LogOut,
   X,
+  Star,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +30,7 @@ const navItems = [
   { href: "/admin/plots", label: "Plots", icon: Map },
   { href: "/admin/gallery", label: "Gallery", icon: Images },
   { href: "/admin/content", label: "Content", icon: FileText },
+  { href: "/admin/testimonials", label: "Testimonials", icon: Star },
   { href: "/admin/updates", label: "Project Updates", icon: Bell },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
