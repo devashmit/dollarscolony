@@ -43,7 +43,7 @@ export interface ApiHighlight {
   displayOrder: number;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_ADMIN_API_URL || "https://admin.dollarscolony.in";
+const API_BASE_URL = process.env.NEXT_PUBLIC_ADMIN_API_URL || "";
 
 export async function getPublicConfig(): Promise<ApiConfig> {
   try {

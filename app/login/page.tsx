@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
+import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -23,6 +24,23 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [view, setView] = useState<"login" | "forgot" | "reset">("login");
+  const [showPassword, setShowPassword] = useState(false);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  const togglePasswordVisibility = () => {
+    const input = passwordRef.current;
+    if (input) {
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      setShowPassword((prev) => !prev);
+      setTimeout(() => {
+        input.focus();
+        input.setSelectionRange(start, end);
+      }, 0);
+    } else {
+      setShowPassword((prev) => !prev);
+    }
+  };
 
   // Forgot password & reset state
   const [resetEmail, setResetEmail] = useState("");
@@ -206,12 +224,31 @@ export default function LoginPage() {
                       Forgot Password?
                     </button>
                   </div>
-                  <Input
-                    id="password"
-                    type="password"
-                    className="bg-[#1A3348] border-[rgba(176,120,72,0.25)] text-[#F5F0E8] placeholder:text-[#8A9BB0]/40 focus-visible:ring-[#B07848]"
-                    {...register("password")}
-                  />
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      className="bg-[#1A3348] border-[rgba(176,120,72,0.25)] text-[#F5F0E8] placeholder:text-[#8A9BB0]/40 focus-visible:ring-[#B07848] pr-10"
+                      ref={(e) => {
+                        register("password").ref(e);
+                        passwordRef.current = e;
+                      }}
+                      onChange={register("password").onChange}
+                      onBlur={register("password").onBlur}
+                      name={register("password").name}
+                    />
+                    <button
+                      type="button"
+                      onClick={togglePasswordVisibility}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8A9BB0] hover:text-[#F5F0E8] focus:outline-none"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
                   {errors.password && (
                     <p className="text-xs text-[#E05252]">{errors.password.message}</p>
                   )}

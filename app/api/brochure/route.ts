@@ -69,14 +69,23 @@ export async function POST(request: NextRequest): Promise<Response> {
 
   const leadId = `brochure_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`
 
-  // Send to both Sheets and Email (non-blocking)
-  const [sheetsResult, emailResult] = await Promise.allSettled([
+  const backendUrl = process.env.BACKEND_API_URL || "http://localhost:8000";
+  // Send to both Sheets and Email and Django backend API
+  const [sheetsResult, emailResult, apiResult] = await Promise.allSettled([
     submitLeadToSheet(lead),
     sendLeadEmail(lead),
+    fetch(`${backendUrl}/api/public/leads/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(lead),
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    }),
   ])
 
   if (process.env.NODE_ENV === 'development') {
-    console.log('[brochure] sheets:', sheetsResult.status, '| email:', emailResult.status)
+    console.log('[brochure] sheets:', sheetsResult.status, '| email:', emailResult.status, '| api:', apiResult.status)
   }
 
   // Non-blocking local fallback (dev convenience only)
