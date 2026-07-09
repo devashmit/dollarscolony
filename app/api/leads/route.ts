@@ -58,7 +58,7 @@ export async function POST(request: NextRequest): Promise<Response> {
   const [sheetsResult, emailResult, apiResult] = await Promise.allSettled([
     submitLeadToSheet(lead),
     sendLeadEmail(lead),
-    fetch(`${API_BASE_URL}/api/public/leads`, {
+    fetch(`${API_BASE_URL}/api/public/leads/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(lead),

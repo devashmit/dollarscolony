@@ -47,7 +47,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_ADMIN_API_URL || "https://admin.dol
 
 export async function getPublicConfig(): Promise<ApiConfig> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/public/config`, { cache: 'no-store' });
+    const res = await fetch(`${API_BASE_URL}/api/public/config/`, { cache: 'no-store' });
     const json = await res.json();
     if (json.success && json.data) {
       return json.data;
@@ -64,7 +64,7 @@ export async function getPublicConfig(): Promise<ApiConfig> {
 
 export async function getPublicPlots(): Promise<ApiPlot[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/public/plots`, { cache: 'no-store' });
+    const res = await fetch(`${API_BASE_URL}/api/public/plots/`, { cache: 'no-store' });
     const json = await res.json();
     if (json.success && Array.isArray(json.data)) {
       return json.data;
@@ -77,7 +77,7 @@ export async function getPublicPlots(): Promise<ApiPlot[]> {
 
 export async function getPublicDownloads(): Promise<ApiDownloads> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/public/downloads`, { cache: 'no-store' });
+    const res = await fetch(`${API_BASE_URL}/api/public/downloads/`, { cache: 'no-store' });
     const json = await res.json();
     if (json.success && Array.isArray(json.data)) {
       const dataMap: ApiDownloads = {};
@@ -96,7 +96,7 @@ export async function getPublicDownloads(): Promise<ApiDownloads> {
 
 export async function getPublicAmenities(): Promise<ApiAmenity[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/public/amenities`, { cache: 'no-store' });
+    const res = await fetch(`${API_BASE_URL}/api/public/amenities/`, { cache: 'no-store' });
     const json = await res.json();
     if (json.success && Array.isArray(json.data)) {
       return json.data;
@@ -109,7 +109,7 @@ export async function getPublicAmenities(): Promise<ApiAmenity[]> {
 
 export async function getPublicHighlights(): Promise<ApiHighlight[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/public/highlights`, { cache: 'no-store' });
+    const res = await fetch(`${API_BASE_URL}/api/public/highlights/`, { cache: 'no-store' });
     const json = await res.json();
     if (json.success && Array.isArray(json.data)) {
       return json.data;
