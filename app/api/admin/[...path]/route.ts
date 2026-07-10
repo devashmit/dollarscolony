@@ -21,6 +21,8 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ p
   return handleProxy(req, await params);
 }
 
+export const dynamic = "force-dynamic";
+
 async function handleProxy(req: NextRequest, { path }: { path: string[] }) {
   const session = await auth();
   const token = (session?.user as any)?.accessToken;
@@ -29,7 +31,7 @@ async function handleProxy(req: NextRequest, { path }: { path: string[] }) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const backendUrl = process.env.BACKEND_API_URL || "http://localhost:8000";
+  const backendUrl = process.env.BACKEND_API_URL || "https://web-production-fe64e.up.railway.app";
   const pathString = path.join("/");
   
   // Django REST framework routes usually end with a slash, we match it!
@@ -51,6 +53,7 @@ async function handleProxy(req: NextRequest, { path }: { path: string[] }) {
         "Authorization": `Bearer ${token}`,
       },
       body,
+      cache: "no-store",
     });
 
     const contentType = backendRes.headers.get("content-type") || "";

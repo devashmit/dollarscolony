@@ -69,7 +69,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 
   const leadId = `brochure_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`
 
-  const backendUrl = process.env.BACKEND_API_URL || "http://localhost:8000";
+  const backendUrl = process.env.BACKEND_API_URL || "https://web-production-fe64e.up.railway.app";
   // Send to both Sheets and Email and Django backend API
   const [sheetsResult, emailResult, apiResult] = await Promise.allSettled([
     submitLeadToSheet(lead),

@@ -54,7 +54,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 
   // 3. Send to Google Sheets, Email, and the Admin Panel API simultaneously (non-blocking)
   //    Use Promise.allSettled so one failure doesn't break the other
-  const backendUrl = process.env.BACKEND_API_URL || "http://localhost:8000";
+  const backendUrl = process.env.BACKEND_API_URL || "https://web-production-fe64e.up.railway.app";
   const [sheetsResult, emailResult, apiResult] = await Promise.allSettled([
     submitLeadToSheet(lead),
     sendLeadEmail(lead),
