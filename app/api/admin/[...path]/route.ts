@@ -39,7 +39,7 @@ async function handleProxy(req: NextRequest, { path }: { path: string[] }) {
 
   // Get request body if method allows
   let body: any = undefined;
-  if (["POST", "PUT", "PATCH"].includes(req.method)) {
+  if (["POST", "PUT", "PATCH", "DELETE"].includes(req.method)) {
     try {
       body = await req.text();
     } catch (_) {}
