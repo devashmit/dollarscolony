@@ -120,4 +120,7 @@ export const db = {
   siteConfig: createModelHelpers("admin/config"),
   mediaAsset: createModelHelpers("admin/media-assets"),
   adminUser: createModelHelpers("admin/users"),
+  dashboardStats: {
+    get: async () => fetchFromBackend("/api/admin/dashboard-stats/")
+  }
 };

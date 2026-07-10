@@ -31,8 +31,9 @@ export default async function DashboardPage() {
   const endOfWeek = new Date(startOfWeek);
   endOfWeek.setDate(endOfWeek.getDate() + 6);
 
-  // Fetch stats
-  const [
+  // Fetch stats from the consolidated endpoint
+  const statsRes = await db.dashboardStats.get();
+  const {
     totalLeads,
     newLeads,
     leadsThisWeek,
@@ -40,50 +41,8 @@ export default async function DashboardPage() {
     blockedPlots,
     soldPlots,
     recentLeads,
-  ] = await Promise.all([
-    db.lead.count(),
-    db.lead.count({ where: { status: "NEW" } }),
-    db.lead.count({ where: { submittedAt: { gte: startOfWeek } } }),
-    db.plot.count({ where: { status: "AVAILABLE" } }),
-    db.plot.count({ where: { status: "BLOCKED" } }),
-    db.plot.count({ where: { status: "SOLD" } }),
-    db.lead.findMany({
-      orderBy: { submittedAt: "desc" },
-      take: 4, // Take 4 for the sidebar column layout
-    }),
-  ]);
-
-  // Calculate dynamic data for the last 7 days chart
-  const last7Days = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - (6 - i));
-    d.setHours(0, 0, 0, 0);
-    return d;
-  });
-
-  const leadsInLast7Days = await db.lead.findMany({
-    where: {
-      submittedAt: {
-        gte: last7Days[0],
-      },
-    },
-    select: {
-      submittedAt: true,
-    },
-  });
-
-  const dailyCounts = last7Days.map((day) => {
-    const nextDay = new Date(day);
-    nextDay.setDate(nextDay.getDate() + 1);
-    const count = leadsInLast7Days.filter((lead) => {
-      const date = new Date(lead.submittedAt);
-      return date >= day && date < nextDay;
-    }).length;
-    return {
-      label: day.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-      count,
-    };
-  });
+    dailyCounts,
+  } = statsRes.data;
 
   const maxCount = Math.max(...dailyCounts.map((d) => d.count), 1);
   
