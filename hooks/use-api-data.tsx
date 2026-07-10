@@ -49,19 +49,15 @@ export function ApiDataProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadData() {
+    async function loadStaticData() {
       try {
-        const [cData, pData, dData, aData, hData] = await Promise.all([
+        const [cData, dData, aData, hData] = await Promise.all([
           getPublicConfig(),
-          getPublicPlots(),
           getPublicDownloads(),
           getPublicAmenities(),
           getPublicHighlights(),
         ]);
         setConfig(cData);
-        if (pData && pData.length > 0) {
-          setPlots(pData);
-        }
         setDownloads(dData);
         if (aData && aData.length > 0) {
           setAmenities(aData);
@@ -70,15 +66,31 @@ export function ApiDataProvider({ children }: { children: React.ReactNode }) {
           setHighlights(hData);
         }
       } catch (err) {
-        console.error("Error loading API data:", err);
-      } finally {
-        setLoading(false);
+        console.error("Error loading static API data:", err);
       }
     }
-    loadData();
 
-    // Poll for real-time updates every 5 seconds
-    const interval = setInterval(loadData, 5000);
+    async function loadPlotsData() {
+      try {
+        const pData = await getPublicPlots();
+        if (pData && pData.length > 0) {
+          setPlots(pData);
+        }
+      } catch (err) {
+        console.error("Error loading plots API data:", err);
+      }
+    }
+
+    async function init() {
+      setLoading(true);
+      await Promise.all([loadStaticData(), loadPlotsData()]);
+      setLoading(false);
+    }
+
+    init();
+
+    // Poll for real-time plot updates only, every 30 seconds
+    const interval = setInterval(loadPlotsData, 30000);
     return () => clearInterval(interval);
   }, []);
 
