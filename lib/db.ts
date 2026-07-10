@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 
-const BACKEND_URL = process.env.BACKEND_API_URL || "http://localhost:8000";
+const BACKEND_URL = process.env.BACKEND_API_URL || "https://web-production-fe64e.up.railway.app";
 
 async function fetchFromBackend(path: string, options: RequestInit = {}) {
   const session = await auth();
