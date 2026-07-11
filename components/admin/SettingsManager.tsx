@@ -284,7 +284,7 @@ export default function SettingsManager({ configs, assets, admins }: SettingsMan
 
     setIsDeletingAdmin(true);
     try {
-      const res = await fetch("/api/admin/users", {
+      const res = await fetch("/api/admin/users/delete", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: deletingAdminId, currentPassword: deleteConfirmPassword }),

@@ -101,6 +101,7 @@ const GA_ID    = process.env.NEXT_PUBLIC_GA_ID
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
 
 import { ApiDataProvider } from '@/hooks/use-api-data'
+import { Toaster } from "@/components/ui/sonner"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -122,6 +123,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ApiDataProvider>
           {children}
         </ApiDataProvider>
+        <Toaster />
 
         {/* ── Google Analytics 4 ───────────────────────────────────────────── */}
         {GA_ID && (
