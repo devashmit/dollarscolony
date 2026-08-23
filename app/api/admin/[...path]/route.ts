@@ -35,7 +35,7 @@ async function handleProxy(req: NextRequest, { path }: { path: string[] }) {
   const pathString = path.join("/");
   
   // Django REST framework routes usually end with a slash, we match it!
-  const destUrl = `${backendUrl}/api/admin/${pathString}/`;
+  const destUrl = `${backendUrl}/api/admin/${pathString}/${req.nextUrl.search}`;
 
   // Get request body if method allows
   let body: any = undefined;
@@ -57,13 +57,22 @@ async function handleProxy(req: NextRequest, { path }: { path: string[] }) {
     });
 
     const contentType = backendRes.headers.get("content-type") || "";
-    let data: any;
-    if (contentType.includes("application/json")) {
-      data = await backendRes.json();
-    } else {
-      data = await backendRes.text();
+    
+    if (!contentType.includes("application/json")) {
+      const buffer = await backendRes.arrayBuffer();
+      const headers = new Headers();
+      headers.set("Content-Type", contentType);
+      const disposition = backendRes.headers.get("content-disposition");
+      if (disposition) {
+        headers.set("Content-Disposition", disposition);
+      }
+      return new NextResponse(buffer, {
+        status: backendRes.status,
+        headers,
+      });
     }
 
+    const data = await backendRes.json();
     return NextResponse.json(data, { status: backendRes.status });
   } catch (err: any) {
     console.error("Proxy error:", err);
