@@ -23,7 +23,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ p
 export const dynamic = "force-dynamic";
 
 async function handleProxy(req: NextRequest, { path }: { path: string[] }) {
-  const backendUrl = process.env.BACKEND_API_URL || "https://web-production-fe64e.up.railway.app";
+  const backendUrl = process.env.BACKEND_API_URL || "https://admin-panel-dollarscolony.onrender.com";
   const pathString = path.join("/");
   
   // Django REST framework routes usually end with a slash, we match it!

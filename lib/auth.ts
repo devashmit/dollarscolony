@@ -76,7 +76,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!credentials?.email || !credentials?.password) return null;
 
         try {
-          const backendUrl = process.env.BACKEND_API_URL || "https://web-production-fe64e.up.railway.app";
+          const backendUrl = process.env.BACKEND_API_URL || "https://admin-panel-dollarscolony.onrender.com";
           const res = await fetch(`${backendUrl}/api/auth/login/`, {
             method: "POST",
             body: JSON.stringify({

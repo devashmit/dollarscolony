@@ -31,7 +31,7 @@ async function handleProxy(req: NextRequest, { path }: { path: string[] }) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const backendUrl = process.env.BACKEND_API_URL || "https://web-production-fe64e.up.railway.app";
+  const backendUrl = process.env.BACKEND_API_URL || "https://admin-panel-dollarscolony.onrender.com";
   const pathString = path.join("/");
   
   // Django REST framework routes usually end with a slash, we match it!
