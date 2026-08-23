@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Download, MessageCircle, MapPin, Building2, Route, Layers, Users } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { analytics } from '@/lib/analytics'
+import { useApiData } from '@/hooks/use-api-data'
 
 const NEW_FLYER_STATS = [
   { icon: MapPin, title: 'Prime Coastal Location', sub: 'Close to beaches, town & NH66' },
@@ -18,7 +19,8 @@ interface Props {
 }
 
 export function Hero({ onBrochureClick }: Props) {
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '919035624148'
+  const { config } = useApiData()
+  const whatsappNumber = config.whatsapp_number || '919035624148'
   const waHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi, I'm interested in Dollars Colony")}`
 
   return (

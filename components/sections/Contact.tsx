@@ -5,6 +5,7 @@ import { Loader2, CheckCircle2, Phone, MessageCircle, Download } from 'lucide-re
 import { motion } from 'framer-motion'
 import { analytics } from '@/lib/analytics'
 import { useUTMParams } from '@/lib/utm'
+import { useApiData } from '@/hooks/use-api-data'
 import type { LeadData } from '@/lib/types'
 
 const CUSTOMER_INTEREST_OPTIONS = [
@@ -60,8 +61,10 @@ interface ContactFormData extends Omit<LeadData, 'formName' | 'ctaClicked'> {
 }
 
 export function Contact({ onBrochureClick }: Props) {
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '919035624148'
-  const phoneNumber    = process.env.NEXT_PUBLIC_PHONE_NUMBER    ?? '9035624148'
+  const { config } = useApiData()
+  const whatsappNumber = config.whatsapp_number || '919035624148'
+  const phoneNumber    = config.phone_number || '9035624148'
+  const displayPhone = config.phone_number ? (config.phone_number.length === 10 ? `${config.phone_number.slice(0, 3)}-${config.phone_number.slice(3, 6)}-${config.phone_number.slice(6)}` : config.phone_number) : '903-562-4148';
   const waHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi, I'm interested in Dollars Colony")}`
 
   const utmParams = useUTMParams()
@@ -247,7 +250,7 @@ export function Contact({ onBrochureClick }: Props) {
             
             {/* Direct Contact Info */}
             <div className="mt-6 md:mt-8 flex flex-col gap-2.5 md:gap-3 font-outfit text-sm text-white/70">
-              <p><strong className="text-white">Call/WhatsApp:</strong> 903-562-4148</p>
+              <p><strong className="text-white">Call/WhatsApp:</strong> {displayPhone}</p>
               <p>
                 <strong className="text-white">Email:</strong>{' '}
                 <a href="mailto:sales@dollarscolony.in" className="hover:text-white transition-colors">sales@dollarscolony.in</a>

@@ -2,6 +2,7 @@
 
 import { MessageCircle } from 'lucide-react'
 import { analytics } from '@/lib/analytics'
+import { useApiData } from '@/hooks/use-api-data'
 
 const QUICK_LINKS = [
   { label: 'About the Project', href: '#about'     },
@@ -12,6 +13,8 @@ const QUICK_LINKS = [
 ]
 
 export function Footer() {
+  const { config } = useApiData()
+  const displayPhone = config.phone_number ? (config.phone_number.length === 10 ? `${config.phone_number.slice(0, 3)}-${config.phone_number.slice(3, 6)}-${config.phone_number.slice(6)}` : config.phone_number) : '903-562-4148';
   function handleScroll(href: string) {
     const id = href.replace('#', '')
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -83,7 +86,7 @@ export function Footer() {
               </p>
               <div className="flex flex-col gap-3">
                 <a
-                  href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '919035624148'}`}
+                  href={`https://wa.me/${config.whatsapp_number || '919035624148'}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => analytics.whatsappClick('footer')}
@@ -91,7 +94,7 @@ export function Footer() {
                 >
                   <MessageCircle className="h-4 w-4 text-[#25D366] group-hover:text-white" />
                   <span className="font-outfit text-[10px] font-bold uppercase tracking-widest text-[#25D366] group-hover:text-white">
-                    WA: 903-562-4148
+                    WA: {displayPhone}
                   </span>
                 </a>
                 <div className="mt-2 flex flex-col gap-1 font-outfit text-[11px] text-white/50">
