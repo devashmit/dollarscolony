@@ -4,6 +4,8 @@ import { Download } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { PlotExplorer } from './PlotExplorer'
 import { useApiData } from '@/hooks/use-api-data'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 export function Masterplan() {
   const { downloads } = useApiData();
@@ -52,6 +54,30 @@ export function Masterplan() {
             Download Master Plan
           </a>
         </div>
+
+        {/* Masterplan Image Graphic if uploaded */}
+        {downloads.masterplan_image?.fileUrl && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mt-8 max-w-4xl mx-auto rounded-2xl overflow-hidden border border-white/[0.08] bg-[#08141F]/40 p-4 shadow-xl relative z-10"
+          >
+            <p className="text-center text-[10px] uppercase tracking-widest text-[#8A9BB0] mb-3">
+              Project Layout Map (Click/Tap to zoom)
+            </p>
+            <div className="flex justify-center rounded-xl overflow-hidden bg-[#0A1D2B]">
+              <Zoom>
+                <img
+                  src={downloads.masterplan_image.fileUrl}
+                  alt="Dollars Colony Layout Master Plan"
+                  className="w-full h-auto object-contain max-h-[500px] cursor-zoom-in transition-transform duration-500 hover:scale-[1.01]"
+                />
+              </Zoom>
+            </div>
+          </motion.div>
+        )}
 
         {/* Masterplan Inventory Breakdown */}
         <motion.div 
