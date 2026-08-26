@@ -30,6 +30,22 @@ export default function GalleryGrid({ initialImages }: GalleryGridProps) {
   const [imageToDelete, setImageToDelete] = useState<GalleryImage | null>(null);
   const [deleting, setDeleting] = useState(false);
 
+  // Staging states for adding descriptions before upload
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [pendingFiles, setPendingFiles] = useState<{ file: File; altText: string; displayOrder: number }[]>([]);
+
+  const handlePendingAltChange = (index: number, val: string) => {
+    setPendingFiles((prev) =>
+      prev.map((item, idx) => (idx === index ? { ...item, altText: val } : item))
+    );
+  };
+
+  const handlePendingOrderChange = (index: number, val: number) => {
+    setPendingFiles((prev) =>
+      prev.map((item, idx) => (idx === index ? { ...item, displayOrder: val } : item))
+    );
+  };
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || []);
     if (selectedFiles.length === 0) return;
@@ -53,16 +69,36 @@ export default function GalleryGrid({ initialImages }: GalleryGridProps) {
       }
     }
 
+    // Stage files for user description inputs
+    const staged = selectedFiles.map((file, idx) => ({
+      file,
+      altText: "",
+      displayOrder: images.length + idx + 1,
+    }));
+
+    setPendingFiles(staged);
+    setUploadDialogOpen(true);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const startPendingUpload = async () => {
+    if (pendingFiles.length === 0) return;
     setUploading(true);
+    setUploadDialogOpen(false);
+
     const uploadedImages: GalleryImage[] = [];
     const newProgress: Record<string, number> = {};
-    selectedFiles.forEach((f) => { newProgress[f.name] = 0; });
+    pendingFiles.forEach((item) => {
+      newProgress[item.file.name] = 0;
+    });
     setUploadProgress(newProgress);
 
     try {
-      for (const file of selectedFiles) {
+      for (const item of pendingFiles) {
         const formData = new FormData();
-        formData.append("files", file);
+        formData.append("files", item.file);
+        formData.append("altText", item.altText);
+        formData.append("displayOrder", String(item.displayOrder));
 
         await new Promise<void>((resolve, reject) => {
           const xhr = new XMLHttpRequest();
@@ -71,7 +107,7 @@ export default function GalleryGrid({ initialImages }: GalleryGridProps) {
           xhr.upload.onprogress = (event) => {
             if (event.lengthComputable) {
               const percent = Math.round((event.loaded / event.total) * 100);
-              setUploadProgress((prev) => ({ ...prev, [file.name]: percent }));
+              setUploadProgress((prev) => ({ ...prev, [item.file.name]: percent }));
             }
           };
 
@@ -110,13 +146,13 @@ export default function GalleryGrid({ initialImages }: GalleryGridProps) {
       });
 
       toast.success("All images uploaded successfully!");
+      setPendingFiles([]);
     } catch (err: any) {
       console.error(err);
       toast.error(err.message || "Failed to upload some images.");
     } finally {
       setUploading(false);
       setUploadProgress({});
-      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
@@ -337,6 +373,85 @@ export default function GalleryGrid({ initialImages }: GalleryGridProps) {
               className="bg-[#E05252] hover:bg-[#E05252]/90 text-[#F5F0E8] font-medium tracking-wide uppercase"
             >
               {deleting ? "Deleting..." : "Delete Image"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Pre-Upload Metadata Configuration Modal */}
+      <Dialog open={uploadDialogOpen} onOpenChange={(open) => {
+        if (!open && !uploading) {
+          setUploadDialogOpen(false);
+          setPendingFiles([]);
+        }
+      }}>
+        <DialogContent className="bg-[#0F2535] border border-[rgba(176,120,72,0.25)] text-[#F5F0E8] max-w-lg max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-base font-semibold uppercase tracking-wider text-[#F5F0E8] border-b border-[rgba(176,120,72,0.15)] pb-3">
+              Configure Image Details
+            </DialogTitle>
+            <DialogDescription className="text-xs text-[#8A9BB0] pt-2">
+              Add descriptions to your images before they are uploaded to improve SEO and site accessibility.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 my-4 max-h-[50vh] overflow-y-auto pr-2">
+            {pendingFiles.map((item, index) => (
+              <div key={index} className="flex gap-4 p-3 rounded-lg bg-[#1A3348]/20 border border-[rgba(176,120,72,0.1)] items-start">
+                <div className="relative h-16 w-16 bg-[#05111D] border border-[rgba(176,120,72,0.15)] rounded-md overflow-hidden shrink-0">
+                  <img
+                    src={URL.createObjectURL(item.file)}
+                    alt="Preview"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="flex-1 space-y-2 min-w-0">
+                  <div className="text-xs font-semibold text-[#F5F0E8] truncate">
+                    {item.file.name}
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-semibold text-[#8A9BB0] uppercase tracking-wider block">Description / Alt Text</label>
+                    <Input
+                      value={item.altText}
+                      onChange={(e) => handlePendingAltChange(index, e.target.value)}
+                      placeholder="e.g. Premium plots with concrete roads..."
+                      className="h-8 bg-[#1A3348] border-[rgba(176,120,72,0.25)] text-xs text-[#F5F0E8] focus-visible:ring-[#B07848]"
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-semibold text-[#8A9BB0] uppercase tracking-wider block">Display Order</label>
+                    <Input
+                      type="number"
+                      value={item.displayOrder}
+                      onChange={(e) => handlePendingOrderChange(index, parseInt(e.target.value, 10) || 0)}
+                      className="h-8 bg-[#1A3348] border-[rgba(176,120,72,0.25)] text-xs text-[#F5F0E8] focus-visible:ring-[#B07848] font-mono w-24"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-0 border-t border-[rgba(176,120,72,0.15)] pt-4">
+            <Button
+              variant="outline"
+              disabled={uploading}
+              onClick={() => {
+                setUploadDialogOpen(false);
+                setPendingFiles([]);
+              }}
+              className="border-[rgba(176,120,72,0.25)] text-[#8A9BB0] hover:text-[#F5F0E8] hover:bg-[#1A3348]/40"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={startPendingUpload}
+              disabled={uploading}
+              className="bg-[#B07848] hover:bg-[#B07848]/90 text-[#F5F0E8] font-medium tracking-wide uppercase"
+            >
+              Upload Images
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -46,6 +46,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: "No files uploaded" }, { status: 400 });
     }
 
+    const altText = (formData.get("altText") as string) || "";
+    const displayOrder = parseInt((formData.get("displayOrder") as string) || "0", 10);
+
     const backendUrl = process.env.BACKEND_API_URL || "https://admin-panel-dollarscolony.onrender.com";
     const uploadedImages: any[] = [];
 
@@ -67,8 +70,8 @@ export async function POST(req: NextRequest) {
           body: JSON.stringify({
             fileUrl: blob.url,
             fileName: item.name,
-            altText: "",
-            displayOrder: 0,
+            altText: altText,
+            displayOrder: displayOrder,
           }),
         });
 
