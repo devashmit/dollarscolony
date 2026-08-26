@@ -11,11 +11,15 @@ export async function GET(
     const downloads = await getPublicDownloads();
     
     if (filename === "dollars-colony-brochure.pdf" && downloads.brochure?.fileUrl) {
-      return NextResponse.redirect(downloads.brochure.fileUrl);
+      const url = new URL(downloads.brochure.fileUrl);
+      url.searchParams.set("download", "1");
+      return NextResponse.redirect(url.toString());
     }
     
     if (filename === "masterplan.pdf" && downloads.masterplan_pdf?.fileUrl) {
-      return NextResponse.redirect(downloads.masterplan_pdf.fileUrl);
+      const url = new URL(downloads.masterplan_pdf.fileUrl);
+      url.searchParams.set("download", "1");
+      return NextResponse.redirect(url.toString());
     }
   } catch (err) {
     console.error("Error redirecting document link:", err);

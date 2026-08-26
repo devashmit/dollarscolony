@@ -69,9 +69,12 @@ export function BrochureModal({ open, onClose, source = 'brochure-download', sel
 
       if (data.brochureUrl) {
         const link = document.createElement("a");
-        link.href = data.brochureUrl;
+        const downloadUrl = data.brochureUrl.includes("blob.vercel-storage.com")
+          ? (data.brochureUrl.includes("?") ? `${data.brochureUrl}&download=1` : `${data.brochureUrl}?download=1`)
+          : data.brochureUrl;
+        link.href = downloadUrl;
         link.target = "_blank";
-        link.rel = "noopener noreferrer";
+        link.download = "Dollars_Colony_Brochure.pdf";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
