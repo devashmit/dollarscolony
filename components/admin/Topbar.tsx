@@ -36,7 +36,7 @@ export default function Topbar({ onMenuClick, title }: TopbarProps) {
 
       {/* Absolutely Centered Logo */}
       {title === "Dollars Colony" && (
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-16 w-52 sm:h-18 sm:w-60 pointer-events-none flex items-center justify-center">
+        <div className="hidden sm:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-16 w-52 sm:h-18 sm:w-60 pointer-events-none items-center justify-center">
           <Image
             src="/sri-brahmari-logo-transparent.png"
             alt="Sri Brahmari Developers"
