@@ -87,7 +87,12 @@ export async function DELETE(
     });
 
     if (!djangoRes.ok) {
-      return NextResponse.json({ success: false, error: "Failed to delete image record from backend" }, { status: djangoRes.status });
+      const errData = await djangoRes.json().catch(() => ({}));
+      console.error("Django delete image failed:", djangoRes.status, errData);
+      return NextResponse.json({ 
+        success: false, 
+        error: errData.detail || errData.error || `Failed to delete image record from backend (HTTP ${djangoRes.status})`
+      }, { status: djangoRes.status });
     }
 
     return NextResponse.json({ success: true });
