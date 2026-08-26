@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { signIn, signOut } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -20,12 +20,34 @@ const loginSchema = z.object({
 type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center bg-[#0D1F2D] text-[#8A9BB0] text-sm">
+        Loading...
+      </div>
+    }>
+      <LoginFormInner />
+    </Suspense>
+  );
+}
+
+function LoginFormInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isExpired = searchParams.get("expired");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [view, setView] = useState<"login" | "forgot" | "reset">("login");
   const [showPassword, setShowPassword] = useState(false);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (isExpired) {
+      signOut({ redirect: false });
+      setErrorMessage("Your session has expired. Please sign in again.");
+      toast.error("Session expired");
+    }
+  }, [isExpired]);
 
   const togglePasswordVisibility = () => {
     const input = passwordRef.current;

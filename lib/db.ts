@@ -29,7 +29,7 @@ async function fetchFromBackend(path: string, options: RequestInit = {}) {
 
   if (!res.ok) {
     if (res.status === 401 || res.status === 403) {
-      redirect("/login");
+      redirect("/login?expired=1");
     }
     throw new Error(`Backend fetch failed: ${res.statusText}`);
   }

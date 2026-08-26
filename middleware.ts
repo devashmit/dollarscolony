@@ -10,11 +10,12 @@ export default auth((req) => {
   const isAdminRoute = req.nextUrl.pathname.startsWith("/admin") ||
                        req.nextUrl.pathname.startsWith("/api/admin");
   const isLoginPage = req.nextUrl.pathname === "/login";
+  const hasExpired = req.nextUrl.searchParams.has("expired");
 
   if (isAdminRoute && !isAdmin) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
-  if (isLoginPage && isAdmin) {
+  if (isLoginPage && isAdmin && !hasExpired) {
     return NextResponse.redirect(new URL("/admin", req.url));
   }
   return NextResponse.next();
