@@ -71,7 +71,7 @@ export function BrochureModal({ open, onClose, source = 'brochure-download', sel
         const link = document.createElement("a");
         link.href = data.brochureUrl;
         link.target = "_blank";
-        link.download = "Dollars_Colony_Brochure.pdf";
+        link.rel = "noopener noreferrer";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

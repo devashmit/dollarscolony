@@ -41,17 +41,18 @@ export function Masterplan() {
           </h2>
         </div>
 
-        {/* Download CTA */}
+        {/* View CTA */}
         <div className="flex justify-center">
           <a
             id="masterplan-download-btn"
             href={masterplanPdfUrl}
-            download="Dollars_Colony_Masterplan.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="ripple-btn flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-white transition-all hover:scale-[1.02]"
             style={{ background: '#B07848' }}
           >
             <Download className="h-4 w-4" />
-            Download Master Plan
+            View Master Plan
           </a>
         </div>
 
