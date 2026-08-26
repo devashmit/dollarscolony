@@ -109,40 +109,40 @@ export default function LeadDetailForm({ lead }: LeadDetailFormProps) {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="md:col-span-2 space-y-6">
-          <div className="bg-[#0F2535] rounded-xl border border-[rgba(176,120,72,0.25)] p-6 shadow-md">
+      <div className="grid gap-4 md:gap-6 md:grid-cols-3">
+        <div className="md:col-span-2 space-y-4 md:space-y-6">
+          <div className="bg-[#0F2535] rounded-xl border border-[rgba(176,120,72,0.25)] p-4 sm:p-6 shadow-md">
             <h3 className="text-base font-semibold text-[#F5F0E8] uppercase tracking-wider border-b border-[rgba(176,120,72,0.15)] pb-3 mb-4">
               Lead Information
             </h3>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-x-2 gap-y-3 grid-cols-2 sm:gap-4">
               {details.map((item, idx) => (
-                <div key={idx} className="space-y-1">
-                  <span className="text-xs font-semibold text-[#8A9BB0] uppercase tracking-wider block">
+                <div key={idx} className="space-y-0.5">
+                  <span className="text-[10px] sm:text-xs font-semibold text-[#8A9BB0] uppercase tracking-wider block">
                     {item.label}
                   </span>
-                  <span className={`text-sm text-[#F5F0E8] block ${item.mono ? "font-mono font-medium" : ""}`}>
+                  <span className={`text-xs sm:text-sm text-[#F5F0E8] block truncate ${item.mono ? "font-mono font-medium" : ""}`}>
                     {item.value}
                   </span>
                 </div>
               ))}
             </div>
-
+ 
             {lead.enquiry && (
-              <div className="mt-6 pt-4 border-t border-[rgba(176,120,72,0.10)] space-y-2">
+              <div className="mt-4 pt-4 border-t border-[rgba(176,120,72,0.10)] space-y-1.5">
                 <span className="text-xs font-semibold text-[#8A9BB0] uppercase tracking-wider block">
                   Customer Enquiry / Message
                 </span>
-                <p className="text-sm text-[#F5F0E8] bg-[#1A3348]/40 p-3 rounded-lg border border-[rgba(176,120,72,0.10)] leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#F5F0E8] bg-[#1A3348]/40 p-3 rounded-lg border border-[rgba(176,120,72,0.10)] leading-relaxed">
                   {lead.enquiry}
                 </p>
               </div>
             )}
           </div>
         </div>
-
-        <div className="space-y-6">
-          <div className="bg-[#0F2535] rounded-xl border border-[rgba(176,120,72,0.25)] p-6 shadow-md space-y-4">
+ 
+        <div className="space-y-4 md:space-y-6">
+          <div className="bg-[#0F2535] rounded-xl border border-[rgba(176,120,72,0.25)] p-4 sm:p-6 shadow-md space-y-4">
             <h3 className="text-base font-semibold text-[#F5F0E8] uppercase tracking-wider border-b border-[rgba(176,120,72,0.15)] pb-3">
               Lead Status
             </h3>
@@ -169,8 +169,8 @@ export default function LeadDetailForm({ lead }: LeadDetailFormProps) {
               </Select>
             </div>
           </div>
-
-          <div className="bg-[#0F2535] rounded-xl border border-[rgba(176,120,72,0.25)] p-6 shadow-md space-y-4">
+ 
+          <div className="bg-[#0F2535] rounded-xl border border-[rgba(176,120,72,0.25)] p-4 sm:p-6 shadow-md space-y-4">
             <h3 className="text-base font-semibold text-[#F5F0E8] uppercase tracking-wider border-b border-[rgba(176,120,72,0.15)] pb-3">
               Internal Notes
             </h3>
@@ -179,7 +179,7 @@ export default function LeadDetailForm({ lead }: LeadDetailFormProps) {
                 placeholder="Add notes about conversations, site visits, or buyer preferences..."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="min-h-[160px] bg-[#1A3348] border-[rgba(176,120,72,0.25)] text-[#F5F0E8] placeholder:text-[#8A9BB0]/30 focus-visible:ring-[#B07848]"
+                className="min-h-[120px] sm:min-h-[160px] bg-[#1A3348] border-[rgba(176,120,72,0.25)] text-[#F5F0E8] placeholder:text-[#8A9BB0]/30 focus-visible:ring-[#B07848] text-xs sm:text-sm"
               />
               <Button
                 onClick={handleSaveNotes}

@@ -16,7 +16,7 @@ export default function Topbar({ onMenuClick, title }: TopbarProps) {
   const initial = email.charAt(0).toUpperCase();
 
   return (
-    <header className="flex h-20 shrink-0 items-center justify-between border-b border-[rgba(176,120,72,0.15)] bg-[#081828] px-4 sm:px-6 z-20 relative">
+    <header className="flex h-16 sm:h-20 shrink-0 items-center justify-between border-b border-[rgba(176,120,72,0.15)] bg-[#081828] px-4 sm:px-6 z-20 relative">
       {/* Left items */}
       <div className="flex items-center gap-2 sm:gap-4 min-w-0">
         <button

@@ -52,8 +52,8 @@ export default function AdminShell({ children }: AdminShellProps) {
 
         <Topbar onMenuClick={() => setSidebarOpen(true)} title={getTitle()} />
 
-        {/* Main Content Area: Added pb-20 on mobile to clear bottom navigation */}
-        <main className="flex-1 overflow-y-auto bg-transparent p-6 pb-24 lg:p-8 relative z-10">
+        {/* Main Content Area: Added pb-32 on mobile to clear bottom navigation */}
+        <main className="flex-1 overflow-y-auto bg-transparent p-4 pb-32 sm:p-6 sm:pb-28 lg:p-8 relative z-10">
           <div className="mx-auto max-w-7xl">
             {children}
           </div>

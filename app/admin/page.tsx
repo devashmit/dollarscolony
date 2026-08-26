@@ -78,28 +78,28 @@ export default async function DashboardPage() {
   const formattedWeekRange = `${startOfWeek.toLocaleDateString("en-US", { month: "short", day: "numeric" })} - ${endOfWeek.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-4 md:space-y-8 pb-12">
       {/* Top Header Row */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-3 border-b border-[rgba(176,120,72,0.1)] pb-4 md:border-none md:pb-0">
         <div>
-          <h2 className="text-2xl font-extrabold tracking-wide text-[#F5F0E8] flex items-center gap-2">
+          <h2 className="text-lg sm:text-2xl font-bold tracking-wide text-[#F5F0E8]">
             Good morning, Admin
           </h2>
-          <p className="text-sm text-[#8A9BB0] mt-1">
-            Here's what's happening with Dollars Colony today.
+          <p className="text-xs sm:text-sm text-[#8A9BB0] mt-0.5">
+            Here's what's happening today.
           </p>
         </div>
 
         {/* Date Selector Dropdown */}
-        <div className="flex items-center gap-2 self-start sm:self-auto bg-[#0F2535] border border-[rgba(176,120,72,0.25)] rounded-lg px-3 py-2 text-xs font-semibold text-[#F5F0E8] hover:border-[rgba(176,120,72,0.4)] transition-all cursor-pointer shadow-md">
-          <Calendar className="h-4 w-4 text-[#D4A46A] shrink-0" />
+        <div className="flex items-center gap-2 self-start xs:self-auto bg-[#0F2535] border border-[rgba(176,120,72,0.25)] rounded-lg px-2.5 py-1.5 text-[11px] sm:text-xs font-semibold text-[#F5F0E8] hover:border-[rgba(176,120,72,0.4)] transition-all cursor-pointer shadow-md shrink-0">
+          <Calendar className="h-3.5 w-3.5 text-[#D4A46A] shrink-0" />
           <span>{formattedWeekRange}</span>
-          <ChevronDown className="h-3 w-3 text-[#8A9BB0] ml-1" />
+          <ChevronDown className="h-3 w-3 text-[#8A9BB0] ml-0.5" />
         </div>
       </div>
 
       {/* Statistics Cards Grid */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-6 grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Leads"
           value={totalLeads}
@@ -139,9 +139,9 @@ export default async function DashboardPage() {
       </div>
 
       {/* Middle Layout Grid: Chart & Recent Enquiries */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* LEADS OVERVIEW Chart */}
-        <div className="lg:col-span-2 bg-[#0F2535] rounded-xl border border-[rgba(176,120,72,0.25)] p-6 flex flex-col justify-between shadow-lg min-h-[360px]">
+      <div className="grid gap-4 md:gap-6 lg:grid-cols-3">
+        {/* LEADS OVERVIEW Chart (Hidden on mobile) */}
+        <div className="hidden md:flex lg:col-span-2 bg-[#0F2535] rounded-xl border border-[rgba(176,120,72,0.25)] p-6 flex flex-col justify-between shadow-lg min-h-[360px]">
           <div className="flex items-center justify-between pb-4 border-b border-[rgba(176,120,72,0.1)]">
             <h3 className="text-sm font-bold text-[#F5F0E8] uppercase tracking-wider flex items-center gap-2">
               <span className="h-3 w-1 bg-[#D4A46A] rounded-full" />
@@ -210,7 +210,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* RECENT ENQUIRIES */}
-        <div className="bg-[#0F2535] rounded-xl border border-[rgba(176,120,72,0.25)] p-6 flex flex-col justify-between shadow-lg min-h-[360px]">
+        <div className="bg-[#0F2535] rounded-xl border border-[rgba(176,120,72,0.25)] p-4 sm:p-6 flex flex-col justify-between shadow-lg min-h-[320px] sm:min-h-[360px]">
           <div className="flex items-center justify-between pb-4 border-b border-[rgba(176,120,72,0.1)]">
             <h3 className="text-sm font-bold text-[#F5F0E8] uppercase tracking-wider flex items-center gap-2">
               <span className="h-3 w-1 bg-[#D4A46A] rounded-full" />
@@ -274,52 +274,52 @@ export default async function DashboardPage() {
       </div>
 
       {/* Secondary Bottom row of statistics */}
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         {/* AVG RESPONSE TIME */}
-        <div className="bg-[#0F2535] p-4 rounded-xl border border-[rgba(176,120,72,0.20)] shadow-md flex items-center gap-3 transition-all hover:border-[rgba(176,120,72,0.35)] min-w-0">
-          <div className="h-9 w-9 rounded-full bg-[#1A3348] border border-[rgba(176,120,72,0.20)] text-[#D4A46A] flex items-center justify-center shrink-0">
-            <Clock className="h-4.5 w-4.5" />
+        <div className="bg-[#0F2535] p-3 sm:p-4 rounded-xl border border-[rgba(176,120,72,0.20)] shadow-md flex items-center gap-2 sm:gap-3 transition-all hover:border-[rgba(176,120,72,0.35)] min-w-0">
+          <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-[#1A3348] border border-[rgba(176,120,72,0.20)] text-[#D4A46A] flex items-center justify-center shrink-0">
+            <Clock className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
           </div>
           <div className="min-w-0 flex-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#8A9BB0] block truncate">Avg Response Time</span>
-            <span className="text-base font-extrabold text-[#F5F0E8] block mt-0.5 leading-none">—</span>
-            <span className="text-[10px] text-[#8A9BB0] block mt-0.5 truncate">No data yet</span>
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#8A9BB0] block truncate">Avg Response Time</span>
+            <span className="text-sm sm:text-base font-extrabold text-[#F5F0E8] block mt-0.5 leading-none">—</span>
+            <span className="text-[9px] sm:text-[10px] text-[#8A9BB0] block mt-0.5 truncate">No data yet</span>
           </div>
         </div>
 
         {/* UNREAD ENQUIRIES */}
-        <div className="bg-[#0F2535] p-4 rounded-xl border border-[rgba(176,120,72,0.20)] shadow-md flex items-center gap-3 transition-all hover:border-[rgba(176,120,72,0.35)] min-w-0">
-          <div className="h-9 w-9 rounded-full bg-[#1A3348] border border-[rgba(176,120,72,0.20)] text-[#D4A46A] flex items-center justify-center shrink-0">
-            <Mail className="h-4.5 w-4.5" />
+        <div className="bg-[#0F2535] p-3 sm:p-4 rounded-xl border border-[rgba(176,120,72,0.20)] shadow-md flex items-center gap-2 sm:gap-3 transition-all hover:border-[rgba(176,120,72,0.35)] min-w-0">
+          <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-[#1A3348] border border-[rgba(176,120,72,0.20)] text-[#D4A46A] flex items-center justify-center shrink-0">
+            <Mail className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
           </div>
           <div className="min-w-0 flex-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#8A9BB0] block truncate">Unread Enquiries</span>
-            <span className="text-base font-extrabold text-[#F5F0E8] block mt-0.5 leading-none">{newLeads}</span>
-            <span className="text-[10px] text-[#8A9BB0] block mt-0.5 truncate">{newLeads} unread messages</span>
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#8A9BB0] block truncate">Unread Enquiries</span>
+            <span className="text-sm sm:text-base font-extrabold text-[#F5F0E8] block mt-0.5 leading-none">{newLeads}</span>
+            <span className="text-[9px] sm:text-[10px] text-[#8A9BB0] block mt-0.5 truncate">{newLeads} unread messages</span>
           </div>
         </div>
 
         {/* CONVERSION RATE */}
-        <div className="bg-[#0F2535] p-4 rounded-xl border border-[rgba(176,120,72,0.20)] shadow-md flex items-center gap-3 transition-all hover:border-[rgba(176,120,72,0.35)] min-w-0">
-          <div className="h-9 w-9 rounded-full bg-[#1A3348] border border-[rgba(176,120,72,0.20)] text-[#D4A46A] flex items-center justify-center shrink-0">
-            <Percent className="h-4.5 w-4.5" />
+        <div className="bg-[#0F2535] p-3 sm:p-4 rounded-xl border border-[rgba(176,120,72,0.20)] shadow-md flex items-center gap-2 sm:gap-3 transition-all hover:border-[rgba(176,120,72,0.35)] min-w-0">
+          <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-[#1A3348] border border-[rgba(176,120,72,0.20)] text-[#D4A46A] flex items-center justify-center shrink-0">
+            <Percent className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
           </div>
           <div className="min-w-0 flex-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#8A9BB0] block truncate">Conversion Rate</span>
-            <span className="text-base font-extrabold text-[#F5F0E8] block mt-0.5 leading-none">0%</span>
-            <span className="text-[10px] text-[#8A9BB0] block mt-0.5 truncate">No data yet</span>
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#8A9BB0] block truncate">Conversion Rate</span>
+            <span className="text-sm sm:text-base font-extrabold text-[#F5F0E8] block mt-0.5 leading-none">0%</span>
+            <span className="text-[9px] sm:text-[10px] text-[#8A9BB0] block mt-0.5 truncate">No data yet</span>
           </div>
         </div>
 
         {/* TOTAL PROJECT VIEWS */}
-        <div className="bg-[#0F2535] p-4 rounded-xl border border-[rgba(176,120,72,0.20)] shadow-md flex items-center gap-3 transition-all hover:border-[rgba(176,120,72,0.35)] min-w-0">
-          <div className="h-9 w-9 rounded-full bg-[#1A3348] border border-[rgba(176,120,72,0.20)] text-[#D4A46A] flex items-center justify-center shrink-0">
-            <Eye className="h-4.5 w-4.5" />
+        <div className="bg-[#0F2535] p-3 sm:p-4 rounded-xl border border-[rgba(176,120,72,0.20)] shadow-md flex items-center gap-2 sm:gap-3 transition-all hover:border-[rgba(176,120,72,0.35)] min-w-0">
+          <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-[#1A3348] border border-[rgba(176,120,72,0.20)] text-[#D4A46A] flex items-center justify-center shrink-0">
+            <Eye className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
           </div>
           <div className="min-w-0 flex-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#8A9BB0] block truncate">Total Project Views</span>
-            <span className="text-base font-extrabold text-[#F5F0E8] block mt-0.5 leading-none">—</span>
-            <span className="text-[10px] text-[#8A9BB0] block mt-0.5 truncate">No data yet</span>
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#8A9BB0] block truncate">Total Project Views</span>
+            <span className="text-sm sm:text-base font-extrabold text-[#F5F0E8] block mt-0.5 leading-none">—</span>
+            <span className="text-[9px] sm:text-[10px] text-[#8A9BB0] block mt-0.5 truncate">No data yet</span>
           </div>
         </div>
       </div>
