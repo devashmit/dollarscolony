@@ -114,12 +114,28 @@ export async function POST(request: NextRequest): Promise<Response> {
     )
   }
 
-  // Return public brochure path (client will drop PDF in /public/documents/)
+  // Retrieve the dynamically uploaded brochure URL from the backend if available
+  let brochureUrl = '/documents/dollars-colony-brochure.pdf';
+  try {
+    const downloadsRes = await fetch(`${backendUrl}/api/public/downloads/`, { cache: 'no-store' });
+    if (downloadsRes.ok) {
+      const json = await downloadsRes.json();
+      if (json.success && Array.isArray(json.data)) {
+        const brochureAsset = json.data.find((asset: any) => asset.key === 'brochure');
+        if (brochureAsset && brochureAsset.fileUrl) {
+          brochureUrl = brochureAsset.fileUrl;
+        }
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching dynamic brochure URL:", err);
+  }
+
   return Response.json(
     {
       success: true,
       id: leadId,
-      brochureUrl: '/documents/dollars-colony-brochure.pdf',
+      brochureUrl,
     } as LeadResponse,
     { status: 200 }
   )

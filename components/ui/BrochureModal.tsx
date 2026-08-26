@@ -66,6 +66,16 @@ export function BrochureModal({ open, onClose, source = 'brochure-download', sel
       if (!res.ok) throw new Error(data.message ?? 'Request failed.')
 
       analytics.enquiryFormSubmit('Brochure')
+
+      if (data.brochureUrl) {
+        const link = document.createElement("a");
+        link.href = data.brochureUrl;
+        link.target = "_blank";
+        link.download = "Dollars_Colony_Brochure.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
       
       setSuccess(true)
       setForm({ name: '', phone: '', email: '', city: '', utmSource: '', utmCampaign: '' })

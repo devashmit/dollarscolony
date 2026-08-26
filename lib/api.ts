@@ -43,7 +43,7 @@ export interface ApiHighlight {
   displayOrder: number;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_ADMIN_API_URL || "";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || process.env.BACKEND_API_URL || "https://admin-panel-dollarscolony.onrender.com";
 
 export async function getPublicConfig(): Promise<ApiConfig> {
   try {
