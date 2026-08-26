@@ -36,7 +36,7 @@ export async function PATCH(
     }
 
     const djangoData = await djangoRes.json();
-    return NextResponse.json({ success: true, data: djangoData });
+    return NextResponse.json({ success: true, data: djangoData.data });
   } catch (err: any) {
     console.error("PATCH metadata error:", err);
     return NextResponse.json({ success: false, error: err.message || "Failed to update image metadata" }, { status: 500 });

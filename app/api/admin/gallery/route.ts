@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
         }
 
         const djangoData = await djangoRes.json();
-        uploadedImages.push(djangoData);
+        uploadedImages.push(djangoData.data);
       }
     }
 
