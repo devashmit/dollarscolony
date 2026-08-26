@@ -117,6 +117,7 @@ export const db = {
   highlight: createModelHelpers("admin/highlights"),
   amenity: createModelHelpers("admin/amenities"),
   projectUpdate: createModelHelpers("admin/updates"),
+  testimonial: createModelHelpers("admin/testimonials"),
   siteConfig: createModelHelpers("admin/config"),
   mediaAsset: createModelHelpers("admin/media-assets"),
   adminUser: createModelHelpers("admin/users"),

@@ -25,6 +25,7 @@ import { BookingProcess }  from '@/components/sections/BookingProcess'
 import { FAQ }             from '@/components/sections/FAQ'
 import { Contact }         from '@/components/sections/Contact'
 import { Gallery }         from '@/components/sections/Gallery'
+import { ConstructionUpdates } from '@/components/sections/ConstructionUpdates'
 
 function MorphSection({ children, index }: { children: React.ReactNode, index: number }) {
   const direction = index % 2 === 0 ? -50 : 50
@@ -68,13 +69,14 @@ export default function HomePage() {
         <MorphSection index={5}><Masterplan /></MorphSection>
         <MorphSection index={6}><Amenities /></MorphSection>
         <MorphSection index={7}><Gallery /></MorphSection>
-        <MorphSection index={8}><Location /></MorphSection>
-        <MorphSection index={9}><WhyKundapura /></MorphSection>
-        <MorphSection index={10}><Developer /></MorphSection>
-        <MorphSection index={11}><Trust /></MorphSection>
-        <MorphSection index={12}><BookingProcess /></MorphSection>
-        <MorphSection index={13}><FAQ /></MorphSection>
-        <MorphSection index={14}><Contact        onBrochureClick={openBrochure} /></MorphSection>
+        <MorphSection index={8}><ConstructionUpdates /></MorphSection>
+        <MorphSection index={9}><Location /></MorphSection>
+        <MorphSection index={10}><WhyKundapura /></MorphSection>
+        <MorphSection index={11}><Developer /></MorphSection>
+        <MorphSection index={12}><Trust /></MorphSection>
+        <MorphSection index={13}><BookingProcess /></MorphSection>
+        <MorphSection index={14}><FAQ /></MorphSection>
+        <MorphSection index={15}><Contact        onBrochureClick={openBrochure} /></MorphSection>
       </main>
 
       <Footer />
