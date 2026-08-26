@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { plotCollections, PlotCollection } from '@/data/plots'
 import { analytics } from '@/lib/analytics'
+import { useApiData } from '@/hooks/use-api-data'
 
 
 interface Props {
@@ -11,6 +12,12 @@ interface Props {
 
 function PlotCard({ collection, index, onBrochureClick }: { collection: PlotCollection; index: number; onBrochureClick?: () => void }) {
   const isFeatured = collection.featured
+  const { config } = useApiData()
+  const pricingText = collection.id === 'lifestyle'
+    ? config.pricing_text_lifestyle
+    : collection.id === 'premium'
+      ? config.pricing_text_premium
+      : config.pricing_text_signature
 
   return (
     <motion.div
@@ -81,6 +88,30 @@ function PlotCard({ collection, index, onBrochureClick }: { collection: PlotColl
           </p>
         </div>
 
+        {/* Pricing Guide if configured */}
+        {pricingText && (
+          <div
+            className="mb-4 md:mb-5 px-4 py-3"
+            style={{
+              background: isFeatured ? 'rgba(212,164,106,0.08)' : '#F0EBE1',
+              borderLeft: `2px solid ${isFeatured ? '#D4A46A' : '#B07848'}`,
+            }}
+          >
+            <p
+              className="text-[0.6rem] font-semibold uppercase tracking-widest mb-1"
+              style={{ color: isFeatured ? '#D4A46A80' : '#8A9BB0' }}
+            >
+              Pricing Guide
+            </p>
+            <p
+              className="font-cinzel text-xl font-bold tracking-wide"
+              style={{ color: isFeatured ? '#F0C97A' : '#0D1F2D' }}
+            >
+              {pricingText}
+            </p>
+          </div>
+        )}
+
         {/* Description */}
         <p
           className="text-sm leading-[1.65] md:leading-[1.8] flex-1"
@@ -125,6 +156,8 @@ function PlotCard({ collection, index, onBrochureClick }: { collection: PlotColl
 }
 
 export function Plots({ onBrochureClick }: Props) {
+  const { config } = useApiData()
+
   return (
     <section id="plots" className="py-7 md:py-10 lg:py-12" style={{ background: '#FDFAF5' }}>
       <div className="mx-auto max-w-6xl px-5 md:px-12">
@@ -155,6 +188,13 @@ export function Plots({ onBrochureClick }: Props) {
             <PlotCard key={collection.id} collection={collection} index={i} onBrochureClick={onBrochureClick} />
           ))}
         </div>
+
+        {/* General Pricing Note if configured */}
+        {config.pricing_text_general && (
+          <p className="mt-6 text-center text-xs italic" style={{ color: '#8A9BB0' }}>
+            {config.pricing_text_general}
+          </p>
+        )}
 
       </div>
     </section>

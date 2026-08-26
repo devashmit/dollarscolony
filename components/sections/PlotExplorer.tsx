@@ -14,7 +14,7 @@ type MergedPlot = PlotData & {
 }
 
 export function PlotExplorer() {
-  const { plots: apiPlots } = useApiData();
+  const { plots: apiPlots, config } = useApiData();
   const [isOpen, setIsOpen]               = useState(false)
   const [selectedBlock, setSelectedBlock] = useState<string>('All')
   const [selectedCategory, setSelectedCategory] = useState<string>('All')
@@ -380,6 +380,39 @@ export function PlotExplorer() {
                       </div>
                     ))}
                   </div>
+
+                  {/* Pricing notes if configured */}
+                  {(config.pricing_text_general || 
+                    (activePlot.category === 'Lifestyle' && config.pricing_text_lifestyle) ||
+                    (activePlot.category === 'Premium' && config.pricing_text_premium) ||
+                    (activePlot.category === 'Signature' && config.pricing_text_signature)) && (
+                    <div className="mb-6 p-4 rounded-lg bg-white/[0.02] border border-white/[0.05] text-left space-y-2">
+                      {activePlot.category === 'Lifestyle' && config.pricing_text_lifestyle && (
+                        <div>
+                          <p className="text-[10px] font-semibold text-[#D4A46A] uppercase tracking-wider">Pricing Guide</p>
+                          <p className="text-xs text-white/80 font-medium">{config.pricing_text_lifestyle}</p>
+                        </div>
+                      )}
+                      {activePlot.category === 'Premium' && config.pricing_text_premium && (
+                        <div>
+                          <p className="text-[10px] font-semibold text-[#D4A46A] uppercase tracking-wider">Pricing Guide</p>
+                          <p className="text-xs text-white/80 font-medium">{config.pricing_text_premium}</p>
+                        </div>
+                      )}
+                      {activePlot.category === 'Signature' && config.pricing_text_signature && (
+                        <div>
+                          <p className="text-[10px] font-semibold text-[#D4A46A] uppercase tracking-wider">Pricing Guide</p>
+                          <p className="text-xs text-white/80 font-medium">{config.pricing_text_signature}</p>
+                        </div>
+                      )}
+                      {config.pricing_text_general && (
+                        <p className="text-[10px] text-white/40 leading-relaxed border-t border-white/5 pt-2 italic">
+                          {config.pricing_text_general}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
                   <button
                     onClick={() => activePlot.status === 'AVAILABLE' && handleInquirePlot(activePlot)}
                     disabled={activePlot.status !== 'AVAILABLE'}

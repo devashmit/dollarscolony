@@ -2,6 +2,10 @@ export interface ApiConfig {
   phone_number: string;
   whatsapp_number: string;
   project_content: string;
+  pricing_text_lifestyle?: string;
+  pricing_text_premium?: string;
+  pricing_text_signature?: string;
+  pricing_text_general?: string;
 }
 
 export interface ApiPlot {
