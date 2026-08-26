@@ -123,7 +123,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ApiDataProvider>
           {children}
         </ApiDataProvider>
-        <Toaster />
+        <Toaster position="top-right" />
 
         {/* ── Google Analytics 4 ───────────────────────────────────────────── */}
         {GA_ID && (
