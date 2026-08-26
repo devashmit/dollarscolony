@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 const BACKEND_URL = process.env.BACKEND_API_URL || "https://admin-panel-dollarscolony.onrender.com";
 
@@ -27,8 +28,8 @@ async function fetchFromBackend(path: string, options: RequestInit = {}) {
   });
 
   if (!res.ok) {
-    if (res.status === 401) {
-      throw new Error("Unauthorized");
+    if (res.status === 401 || res.status === 403) {
+      redirect("/login");
     }
     throw new Error(`Backend fetch failed: ${res.statusText}`);
   }
