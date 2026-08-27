@@ -15,7 +15,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (!updated) {
       return NextResponse.json({ error: "Testimonial not found" }, { status: 404 });
     }
-    return NextResponse.json({ success: true, data: updated });
+    return NextResponse.json({ success: true, data: updated.data });
   } catch (error) {
     console.error("Failed to update testimonial", error);
     return NextResponse.json({ error: "Failed to update testimonial" }, { status: 500 });

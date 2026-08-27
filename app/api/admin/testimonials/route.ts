@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       active: body.active ?? true,
     });
 
-    return NextResponse.json({ success: true, data: testimonial });
+    return NextResponse.json({ success: true, data: testimonial.data });
   } catch (error) {
     console.error("Failed to create testimonial", error);
     return NextResponse.json({ error: "Failed to create testimonial" }, { status: 500 });
