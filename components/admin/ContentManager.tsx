@@ -214,7 +214,8 @@ export default function ContentManager({
   // Toggle active helper
   const handleToggleActive = async (id: string, type: "highlight" | "amenity", currentVal: boolean) => {
     try {
-      const url = `/api/admin/${type}s/${id}`;
+      const endpoint = type === "amenity" ? "amenities" : "highlights";
+      const url = `/api/admin/${endpoint}/${id}`;
       const res = await fetch(url, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -248,7 +249,8 @@ export default function ContentManager({
     setDeleting(true);
 
     try {
-      const url = `/api/admin/${deleteTarget.type}s/${deleteTarget.id}`;
+      const endpoint = deleteTarget.type === "amenity" ? "amenities" : "highlights";
+      const url = `/api/admin/${endpoint}/${deleteTarget.id}`;
       const res = await fetch(url, { method: "DELETE" });
       const data = await res.json();
 
