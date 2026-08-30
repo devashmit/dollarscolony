@@ -65,11 +65,30 @@ export const metadata: Metadata = {
     url: 'https://dollarscolony.in',
     type: 'website',
     siteName: 'Dollars Colony',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Dollars Colony Kundapura - Coastal Villa Plots',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Dollars Colony Kundapura | Premium Coastal Villa Plots',
     description: 'Premium coastal villa plot community in Kundapura, Karnataka.',
+    images: ['/og-image.jpg'],
+  },
+  icons: {
+    icon: [
+      { url: '/icon.png', sizes: '512x512', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
   robots: { index: true, follow: true },
   metadataBase: new URL('https://dollarscolony.in'),
