@@ -1,6 +1,7 @@
 {
   "name": "dollars-colony",
   "version": "0.1.0",
+  "description": "Dollars Colony Kundapura - Premium Coastal Villa Plots Platform",
   "private": true,
   "scripts": {
     "dev": "next dev",
