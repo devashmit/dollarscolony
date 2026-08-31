@@ -160,3 +160,9 @@ Deploy instantly to Vercel:
 1. Link your repository on the [Vercel Dashboard](https://vercel.com).
 2. Configure all Environment Variables under Project Settings.
 3. Deploy! Vercel automatically detects Next.js configurations.
+
+---
+
+## 📄 License & Maintenance
+
+Designed and maintained for **Sri Brahmari Developers & Dollars Colony Kundapura**. All rights reserved.
