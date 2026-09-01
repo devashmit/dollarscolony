@@ -91,6 +91,7 @@ export default function SettingsManager({ configs, assets, admins }: SettingsMan
   const masterplanPdfInputRef = useRef<HTMLInputElement>(null);
   const masterplanImgInputRef = useRef<HTMLInputElement>(null);
   const aboutEntranceInputRef = useRef<HTMLInputElement>(null);
+  const heroBackgroundInputRef = useRef<HTMLInputElement>(null);
 
   const handleSaveContact = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -315,7 +316,7 @@ export default function SettingsManager({ configs, assets, admins }: SettingsMan
     }
 
     const sizeMB = file.size / (1024 * 1024);
-    if (key === "masterplan_image" || key === "about_entrance") {
+    if (key === "masterplan_image" || key === "about_entrance" || key === "hero_background") {
       if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
         toast.error("Only JPEG, PNG, or WebP images are allowed (SVGs are blocked)");
         return;
@@ -346,6 +347,7 @@ export default function SettingsManager({ configs, assets, admins }: SettingsMan
       masterplan_pdf: "masterplan-pdf",
       masterplan_image: "masterplan-image",
       about_entrance: "about-entrance",
+      hero_background: "hero-background",
     };
 
     try {
@@ -618,6 +620,13 @@ export default function SettingsManager({ configs, assets, admins }: SettingsMan
               ref: aboutEntranceInputRef,
               accept: "image/jpeg,image/png,image/webp",
               hint: "JPEG, PNG, or WebP images up to 8 MB. Surfaced in About the Project section.",
+            },
+            {
+              key: "hero_background",
+              title: "Hero Section Background Image",
+              ref: heroBackgroundInputRef,
+              accept: "image/jpeg,image/png,image/webp",
+              hint: "JPEG, PNG, or WebP images up to 8 MB. Surfaced as the main hero background banner on the website.",
             },
           ].map((doc) => {
             const asset = mediaAssets[doc.key];
