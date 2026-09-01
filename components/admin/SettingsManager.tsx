@@ -90,6 +90,7 @@ export default function SettingsManager({ configs, assets, admins }: SettingsMan
   const brochureInputRef = useRef<HTMLInputElement>(null);
   const masterplanPdfInputRef = useRef<HTMLInputElement>(null);
   const masterplanImgInputRef = useRef<HTMLInputElement>(null);
+  const aboutEntranceInputRef = useRef<HTMLInputElement>(null);
 
   const handleSaveContact = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -314,7 +315,7 @@ export default function SettingsManager({ configs, assets, admins }: SettingsMan
     }
 
     const sizeMB = file.size / (1024 * 1024);
-    if (key === "masterplan_image") {
+    if (key === "masterplan_image" || key === "about_entrance") {
       if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
         toast.error("Only JPEG, PNG, or WebP images are allowed (SVGs are blocked)");
         return;
@@ -344,6 +345,7 @@ export default function SettingsManager({ configs, assets, admins }: SettingsMan
       brochure: "brochure",
       masterplan_pdf: "masterplan-pdf",
       masterplan_image: "masterplan-image",
+      about_entrance: "about-entrance",
     };
 
     try {
@@ -609,6 +611,13 @@ export default function SettingsManager({ configs, assets, admins }: SettingsMan
               ref: masterplanImgInputRef,
               accept: "image/jpeg,image/png,image/webp",
               hint: "JPEG, PNG, or WebP images only up to 8 MB. SVG is blocked.",
+            },
+            {
+              key: "about_entrance",
+              title: "Community Entrance / About Photo",
+              ref: aboutEntranceInputRef,
+              accept: "image/jpeg,image/png,image/webp",
+              hint: "JPEG, PNG, or WebP images up to 8 MB. Surfaced in About the Project section.",
             },
           ].map((doc) => {
             const asset = mediaAssets[doc.key];
