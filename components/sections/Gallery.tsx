@@ -2,15 +2,50 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import { LotusDivider } from '@/components/ui/GoldEmbroidery'
 import { GalleryImage } from '@/lib/types-prisma-mock'
+import { Play, X, Video } from 'lucide-react'
+
+function isMediaVideo(url: string, fileName?: string): boolean {
+  const target = (url + ' ' + (fileName || '')).toLowerCase()
+  return (
+    target.includes('.mp4') ||
+    target.includes('.webm') ||
+    target.includes('.mov') ||
+    target.includes('.m4v') ||
+    target.includes('.ogg') ||
+    target.includes('youtube.com') ||
+    target.includes('youtu.be') ||
+    target.includes('vimeo.com')
+  )
+}
+
+function getEmbedUrl(url: string): string | null {
+  if (!url) return null
+  try {
+    if (url.includes('youtube.com/watch')) {
+      const v = new URL(url).searchParams.get('v')
+      if (v) return `https://www.youtube.com/embed/${v}?autoplay=1&rel=0`
+    }
+    if (url.includes('youtu.be/')) {
+      const id = url.split('youtu.be/')[1]?.split('?')[0]
+      if (id) return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`
+    }
+    if (url.includes('vimeo.com/')) {
+      const id = url.split('vimeo.com/')[1]?.split('?')[0]
+      if (id) return `https://player.vimeo.com/video/${id}?autoplay=1`
+    }
+  } catch (_) {}
+  return null
+}
 
 export function Gallery() {
   const [images, setImages] = useState<GalleryImage[]>([])
   const [loading, setLoading] = useState(true)
+  const [activeVideo, setActiveVideo] = useState<GalleryImage | null>(null)
 
   useEffect(() => {
     async function fetchImages() {
@@ -19,7 +54,7 @@ export function Gallery() {
         const json = await res.json()
         if (json.success && Array.isArray(json.data)) {
           // Sort by displayOrder ascending
-          const sorted = json.data.sort((a: any, b: any) => a.displayOrder - b.displayOrder);
+          const sorted = json.data.sort((a: any, b: any) => a.displayOrder - b.displayOrder)
           setImages(sorted)
         }
       } catch (err) {
@@ -46,6 +81,8 @@ export function Gallery() {
     return null
   }
 
+  const embedUrl = activeVideo ? getEmbedUrl(activeVideo.fileUrl) : null
+
   return (
     <section id="gallery" className="py-12 md:py-16 lg:py-20 relative overflow-hidden" style={{ background: '#05111D' }}>
       {/* Premium Golden Leaf Embroidery Watermark */}
@@ -69,41 +106,138 @@ export function Gallery() {
             Site Progress & Gallery
           </h2>
           <p className="mt-3 md:mt-4 mx-auto max-w-lg text-sm leading-relaxed" style={{ color: '#8A9BB0' }}>
-            View the premium development updates, scenic coastal views, and ongoing progress at Dollars Colony.
+            View high-definition photos, drone footage, and ongoing progress at Dollars Colony.
           </p>
         </div>
 
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {images.map((img, idx) => (
-            <motion.div
-              key={img.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 0.6, delay: Math.min(idx * 0.05, 0.4) }}
-              className="bg-[#0D1F2D]/60 rounded-xl overflow-hidden border border-[rgba(176,120,72,0.15)] shadow-md hover:border-[rgba(176,120,72,0.35)] transition-all duration-300 group"
-            >
-              <div className="relative aspect-square w-full bg-[#05111D] overflow-hidden">
-                <Zoom>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={img.fileUrl}
-                    alt={img.altText || img.fileName || "Dollars Colony Gallery"}
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                    style={{ aspectRatio: "1/1" }}
-                  />
-                </Zoom>
-              </div>
-              {img.altText && (
-                <div className="p-3 text-center border-t border-[rgba(176,120,72,0.08)] bg-[#0A1926]/40">
-                  <p className="text-xs text-[#8A9BB0] line-clamp-1 italic font-medium">{img.altText}</p>
+          {images.map((item, idx) => {
+            const isVideo = isMediaVideo(item.fileUrl, item.fileName)
+
+            return (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ duration: 0.6, delay: Math.min(idx * 0.05, 0.4) }}
+                className="bg-[#0D1F2D]/60 rounded-xl overflow-hidden border border-[rgba(176,120,72,0.15)] shadow-md hover:border-[rgba(176,120,72,0.35)] transition-all duration-300 group flex flex-col justify-between"
+              >
+                <div className="relative aspect-square w-full bg-[#05111D] overflow-hidden">
+                  {isVideo ? (
+                    <button
+                      type="button"
+                      onClick={() => setActiveVideo(item)}
+                      className="w-full h-full relative flex items-center justify-center cursor-pointer group/vid focus:outline-none"
+                    >
+                      <video
+                        src={item.fileUrl}
+                        className="object-cover w-full h-full opacity-80 group-hover/vid:opacity-95 transition-opacity"
+                        muted
+                        playsInline
+                        preload="metadata"
+                      />
+                      <div className="absolute inset-0 bg-black/30 group-hover/vid:bg-black/10 transition-colors" />
+                      
+                      {/* Play Button */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                        <div className="h-12 w-12 rounded-full bg-black/70 border border-[#D4A46A] flex items-center justify-center text-[#D4A46A] shadow-xl group-hover/vid:scale-110 group-hover/vid:bg-[#D4A46A] group-hover/vid:text-black transition-all">
+                          <Play className="h-5 w-5 fill-current ml-0.5" />
+                        </div>
+                        <span className="text-[10px] font-bold tracking-widest uppercase text-[#D4A46A] bg-black/60 px-2 py-0.5 rounded border border-[#D4A46A]/30">
+                          Watch Video
+                        </span>
+                      </div>
+
+                      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-black/80 border border-[#D4A46A]/40 text-[9px] font-bold tracking-wider text-[#D4A46A] uppercase flex items-center gap-1">
+                        <Video className="h-3 w-3" />
+                        VIDEO
+                      </div>
+                    </button>
+                  ) : (
+                    <Zoom>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={item.fileUrl}
+                        alt={item.altText || item.fileName || "Dollars Colony Gallery"}
+                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                        style={{ aspectRatio: "1/1" }}
+                      />
+                    </Zoom>
+                  )}
                 </div>
-              )}
-            </motion.div>
-          ))}
+
+                {item.altText && (
+                  <div className="p-3 text-center border-t border-[rgba(176,120,72,0.08)] bg-[#0A1926]/40">
+                    <p className="text-xs text-[#8A9BB0] line-clamp-1 italic font-medium">{item.altText}</p>
+                  </div>
+                )}
+              </motion.div>
+            )
+          })}
         </div>
       </div>
+
+      {/* Luxury Video Modal Player */}
+      <AnimatePresence>
+        {activeVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
+            onClick={() => setActiveVideo(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-4xl bg-[#091824] rounded-2xl overflow-hidden border border-[#D4A46A]/40 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Top Bar */}
+              <div className="flex items-center justify-between px-5 py-3 border-b border-[rgba(176,120,72,0.2)] bg-[#05111D]">
+                <div className="flex items-center gap-2">
+                  <Video className="h-4 w-4 text-[#D4A46A]" />
+                  <span className="text-xs font-semibold text-[#F5F0E8] uppercase tracking-wider truncate max-w-[300px]">
+                    {activeVideo.altText || activeVideo.fileName}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveVideo(null)}
+                  className="h-8 w-8 rounded-full bg-white/10 hover:bg-white/20 text-[#F5F0E8] flex items-center justify-center transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* Video Player */}
+              <div className="relative aspect-video w-full bg-black">
+                {embedUrl ? (
+                  <iframe
+                    src={embedUrl}
+                    title={activeVideo.altText || activeVideo.fileName}
+                    className="w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    src={activeVideo.fileUrl}
+                    controls
+                    autoPlay
+                    playsInline
+                    className="w-full h-full object-contain"
+                  />
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
