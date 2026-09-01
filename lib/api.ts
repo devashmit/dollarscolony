@@ -30,6 +30,7 @@ export interface ApiDownloads {
   masterplan_pdf?: ApiAsset;
   masterplan_image?: ApiAsset;
   about_entrance?: ApiAsset;
+  hero_background?: ApiAsset;
 }
 
 export interface ApiAmenity {
@@ -91,6 +92,7 @@ export async function getPublicDownloads(): Promise<ApiDownloads> {
         if (asset.key === "masterplan_pdf") dataMap.masterplan_pdf = asset;
         if (asset.key === "masterplan_image") dataMap.masterplan_image = asset;
         if (asset.key === "about_entrance") dataMap.about_entrance = asset;
+        if (asset.key === "hero_background") dataMap.hero_background = asset;
       });
       return dataMap;
     }
