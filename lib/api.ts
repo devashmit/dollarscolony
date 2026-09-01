@@ -29,6 +29,7 @@ export interface ApiDownloads {
   brochure?: ApiAsset;
   masterplan_pdf?: ApiAsset;
   masterplan_image?: ApiAsset;
+  about_entrance?: ApiAsset;
 }
 
 export interface ApiAmenity {
@@ -89,6 +90,7 @@ export async function getPublicDownloads(): Promise<ApiDownloads> {
         if (asset.key === "brochure") dataMap.brochure = asset;
         if (asset.key === "masterplan_pdf") dataMap.masterplan_pdf = asset;
         if (asset.key === "masterplan_image") dataMap.masterplan_image = asset;
+        if (asset.key === "about_entrance") dataMap.about_entrance = asset;
       });
       return dataMap;
     }
