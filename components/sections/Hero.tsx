@@ -19,9 +19,10 @@ interface Props {
 }
 
 export function Hero({ onBrochureClick }: Props) {
-  const { config } = useApiData()
+  const { config, downloads } = useApiData()
   const whatsappNumber = config.whatsapp_number || '919035624148'
   const waHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi, I'm interested in Dollars Colony")}`
+  const heroBgUrl = downloads.hero_background?.fileUrl || "/hero-ultra-premium.png"
 
   return (
     <section
@@ -37,10 +38,11 @@ export function Hero({ onBrochureClick }: Props) {
         className="absolute inset-0 pointer-events-none"
       >
         <Image
-          src="/hero-ultra-premium.png"
+          src={heroBgUrl}
           alt="Premium aerial view of scenic coastal highway at Dollars Colony"
           fill
           priority
+          unoptimized={heroBgUrl.startsWith('http')}
           className="object-cover object-center"
           sizes="100vw"
         />
