@@ -18,6 +18,7 @@ export async function POST(
     "brochure": "brochure",
     "masterplan-pdf": "masterplan_pdf",
     "masterplan-image": "masterplan_image",
+    "about-entrance": "about_entrance",
   };
 
   const dbKey = keyMap[rawKey];
@@ -60,6 +61,7 @@ export async function POST(
       "brochure": "Brochure PDF",
       "masterplan_pdf": "Masterplan PDF",
       "masterplan_image": "Masterplan Image",
+      "about_entrance": "Community Entrance Photo",
     };
 
     const payload = {
