@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import { useApiData } from '@/hooks/use-api-data'
 
 export function About() {
-  const { config } = useApiData()
+  const { config, downloads } = useApiData()
   const activeAboutContent = config.project_content || "Dollars Colony @ Viaan Enclave is a premium coastal plotted community in Kundapura, created for families, NRIs, investors, holiday-home buyers and retirement-home buyers who want to own land in a well-planned community near the coast."
+  const entranceImageUrl = downloads.about_entrance?.fileUrl || "/about-entrance.jpg"
+
   return (
     <section id="about" className="py-7 md:py-10 lg:py-12" style={{ background: '#FDFAF5' }}>
       <div className="mx-auto max-w-7xl px-5 md:px-12">
@@ -20,9 +22,10 @@ export function About() {
             className="relative aspect-[4/5] overflow-hidden rounded-xl md:rounded-2xl"
           >
             <Image
-              src="/about-entrance.jpg"
+              src={entranceImageUrl}
               alt="Dollars Colony community entrance, gated villa plot community Kundapura"
               fill
+              unoptimized={entranceImageUrl.startsWith('http')}
               className="object-cover object-center"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
